@@ -4,6 +4,7 @@ require 'capybara-screenshot/rspec'
 require 'action_mailer'
 require 'email_spec'
 require 'email_spec/rspec'
+require 'support/controller_helpers'
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -18,6 +19,10 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
+
+  config.include Warden::Test::Helpers
+  config.include Devise::Test::ControllerHelpers, :type => :controller
+  config.include ControllerHelpers, :type => :controller
 end
 
 Shoulda::Matchers.configure do |config|
@@ -28,12 +33,4 @@ Shoulda::Matchers.configure do |config|
     with.library :action_controller
     with.library :rails
   end
-end
-
-require "support/controller_helpers"
-RSpec.configure do |config|
-  config.include Warden::Test::Helpers
-  # config.include Devise::TestHelpers, :type => :controller
-  config.include Devise::Test::ControllerHelpers, :type => :controller
-  config.include ControllerHelpers, :type => :controller
 end
