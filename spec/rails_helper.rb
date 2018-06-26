@@ -5,6 +5,7 @@ require 'action_mailer'
 require 'email_spec'
 require 'email_spec/rspec'
 require 'support/controller_helpers'
+require 'devise'
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -13,7 +14,10 @@ require 'rspec/rails'
 
 ActiveRecord::Migration.maintain_test_schema!
 
+Dir[File.expand_path(File.join(File.dirname(__FILE__),"support","**","*.rb"))].each {|f| require f}
+
 RSpec.configure do |config|
+  config.include Devise::Test::ControllerHelpers, type: :controller
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true

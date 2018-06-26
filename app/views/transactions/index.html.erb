@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="table-responsive-sm">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="min-width:120px">Date</th>
+            <th style="min-width:240px">Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @transactions.each do |transaction| %>
+            <tr>
+              <td><%= transaction.transaction_date %></td>
+              <td><%= transaction.description %></td>
+              <td><%= number_to_currency(transaction.amount) %></td>
+            </tr>
+          <%end%>
+          <tr>
+        </tbody>
+      </table>
+    </div>
+    <%= will_paginate @transactions, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+  </div>

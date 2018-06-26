@@ -13,7 +13,7 @@ feature 'Logout' do
 
       click_link "Log out"
 
-      expect(page).to have_content("Log in")
+      expect(page).to have_content("Login")
     end
   end
 end
