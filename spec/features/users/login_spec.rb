@@ -7,7 +7,7 @@ feature 'Login' do
 
       user = "example@example.com"
       password = "123456"
-      click_link "Sign up"
+      first(:link, "Sign up").click
       fill_in "user_email", :with => user
       fill_in "user_password", :with => password
       fill_in "user_password_confirmation", :with => password

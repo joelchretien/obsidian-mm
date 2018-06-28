@@ -1,17 +1,29 @@
-<div class="container">
-  <nav class="navbar navbar-dark bg-inverse">
-    <ul class="nav navbar-nav clearfix">
-      <li class="nav-item">
-        <button class="navbar-toggler hidden-sm-up nav-link" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
-          &#9776;
-        </button>
-      </li>
-    </ul>
-    <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
-      <%= link_to "Budget Tracking", root_path, class: 'navbar-brand' %>
-      <ul class="nav navbar-nav">
+<nav class="navbar navbar-expand-lg navbar-dark bg-inverse" style="background-color:#333;">
+  <div class="container">
+    <%= link_to "Budget Tracking", root_path, class: 'navbar-brand' %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
         <%= render 'layouts/navigation_links' %>
       </ul>
+      <ul class="navbar-nav ml-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= current_user.email %></a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= link_to('Log out', destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
+            </div>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to('Sign up', new_user_registration_path, class: 'nav-link') %>
+          </li>
+          <li class="nav-item">
+            <%= link_to('Login', new_user_session_path, class: 'nav-link') %>
+          </li>
+        <% end %>
     </div>
-  </nav>
-</div>
+  </div>
+</nav>
