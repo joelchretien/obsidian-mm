@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   resources :transactions
+  resources :budgeted_line_items
 end

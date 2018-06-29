@@ -1,0 +1,25 @@
+
+<div class="container">
+    <div class="table-responsive-sm">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="min-width:240px">Description</th>
+            <th>Amount</th>
+            <th>Recurrence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @budgeted_line_items.each do |budgeted_line_item| %>
+            <tr>
+              <td><%= budgeted_line_item.description %></td>
+              <td><%= number_to_currency(transaction.amount) %></td>
+              <td><%= budgeted_line_item.recurrence_text %></td>
+            </tr>
+          <%end%>
+          <tr>
+        </tbody>
+      </table>
+    </div>
+    <%= will_paginate @budgeted_line_items, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+  </div>

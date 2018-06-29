@@ -4,4 +4,5 @@ class User < ApplicationRecord
          :registerable, :confirmable
 
   has_many :transactions, dependent: :destroy
+  has_many :budgeted_line_items, dependent: :destroy
 end

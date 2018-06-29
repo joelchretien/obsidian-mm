@@ -14,4 +14,14 @@ feature 'Show Transactions' do
       expect(page).not_to have_content(other_user.transactions[0].description)
     end
   end
+
+  it 'paginates transactions' do
+    current_user = FactoryBot.create :current_user
+    allow(Transaction).to receive(:per_page).and_return(1)
+
+    login_as current_user, scope: :user
+    visit transactions_path
+
+    expect(page).to have_css('.pagination')
+  end
 end

@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_19_025818) do
+ActiveRecord::Schema.define(version: 2018_06_28_021017) do
+
+  create_table "budgeted_line_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "description"
+    t.float "amount"
+    t.integer "recurrence"
+    t.integer "recurrence_multiplier"
+    t.bigint "user_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_budgeted_line_items_on_user_id"
+  end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "description"
@@ -43,5 +56,6 @@ ActiveRecord::Schema.define(version: 2018_06_19_025818) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "budgeted_line_items", "users"
   add_foreign_key "transactions", "users"
 end
