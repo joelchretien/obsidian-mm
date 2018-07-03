@@ -13,7 +13,7 @@
           <% @budgeted_line_items.each do |budgeted_line_item| %>
             <tr>
               <td><%= budgeted_line_item.description %></td>
-              <td><%= number_to_currency(transaction.amount) %></td>
+              <td><%= number_to_currency(budgeted_line_item.amount) %></td>
               <td><%= budgeted_line_item.recurrence_text %></td>
             </tr>
           <%end%>
