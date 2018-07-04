@@ -3,7 +3,8 @@ FactoryBot.define do
     description "MyText"
     amount 1.5
     recurrence 0
-    recurrence_multiplier ""
+    recurrence_multiplier 1
+    start_date DateTime.now.beginning_of_day
     association :user, factory: :current_user
     factory :current_user_bugeted_line_items do
       sequence(:description) do |n|

@@ -1,8 +1,19 @@
 class BudgetedLineItem < ApplicationRecord
-  belongs_to :user
+
+  validates :description, presence: true
+
   monetize :amount_cents
+  validates :amount_cents, presence: true
 
   enum recurrence:  [:no_recurrence, :weekly, :monthly, :yearly ]
+  validates :recurrence, presence: true
+
+  validates :recurrence_multiplier, presence: true
+
+  belongs_to :user
+  validates :user, presence: true
+
+  validates :start_date, presence: true
 
   self.per_page = 50
 

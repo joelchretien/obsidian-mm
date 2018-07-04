@@ -1,12 +1,28 @@
 describe BudgetedLineItem do
-  it { is_expected.to belong_to(:user) }
+  describe "#description" do
+    it { is_expected.to validate_presence_of(:description)}
+  end
 
-  describe "#recurence" do
+  describe "#amount_cents" do
+    it { is_expected.to monetize(:amount_cents) }
+    it { is_expected.to validate_presence_of(:amount_cents)}
+  end
+
+  describe "#recurrence" do
     it { is_expected.to define_enum_for(:recurrence).with([:no_recurrence, :weekly, :monthly, :yearly] ) }
   end
 
-  describe ".per_page" do
-    #JC: Research how to test this
+  describe "#recurrence_multiplier" do
+    it { is_expected.to validate_presence_of(:recurrence_multiplier)}
+  end
+
+  describe "#user" do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to validate_presence_of(:user) }
+  end
+
+  describe "#start_date" do
+    it { is_expected.to validate_presence_of(:start_date)}
   end
 
   describe "#recurrence_text" do
