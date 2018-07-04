@@ -6,6 +6,7 @@ require 'email_spec'
 require 'email_spec/rspec'
 require 'support/controller_helpers'
 require 'devise'
+require 'money-rails/test_helpers'
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)

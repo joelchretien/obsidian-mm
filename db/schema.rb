@@ -13,12 +13,12 @@
 ActiveRecord::Schema.define(version: 2018_06_28_021017) do
 
   create_table "budgeted_line_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "description"
-    t.float "amount"
-    t.integer "recurrence"
-    t.integer "recurrence_multiplier"
-    t.bigint "user_id"
-    t.date "start_date"
+    t.text "description", null: false
+    t.integer "amount_cents", null: false
+    t.integer "recurrence", null: false
+    t.integer "recurrence_multiplier", null: false
+    t.bigint "user_id", null: false
+    t.date "start_date", null: false
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -26,10 +26,10 @@ ActiveRecord::Schema.define(version: 2018_06_28_021017) do
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "description"
-    t.integer "amount"
-    t.date "transaction_date"
-    t.bigint "user_id"
+    t.string "description", null: false
+    t.integer "amount_cents", null: false
+    t.date "transaction_date", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_transactions_on_user_id"

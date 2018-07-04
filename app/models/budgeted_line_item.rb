@@ -1,5 +1,6 @@
 class BudgetedLineItem < ApplicationRecord
   belongs_to :user
+  monetize :amount_cents
 
   enum recurrence:  [:no_recurrence, :weekly, :monthly, :yearly ]
 

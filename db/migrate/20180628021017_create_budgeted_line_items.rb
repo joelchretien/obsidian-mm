@@ -1,12 +1,12 @@
 class CreateBudgetedLineItems < ActiveRecord::Migration[5.2]
   def change
     create_table :budgeted_line_items do |t|
-      t.text :description
-      t.float :amount
-      t.integer :recurrence
-      t.integer :recurrence_multiplier
-      t.references :user, foreign_key: true
-      t.date :start_date
+      t.text :description, null: false
+      t.integer :amount_cents, null: false
+      t.integer :recurrence, null: false
+      t.integer :recurrence_multiplier, null: false
+      t.references :user, foreign_key: true, null: false
+      t.date :start_date, null: false
       t.date :end_date
 
       t.timestamps
