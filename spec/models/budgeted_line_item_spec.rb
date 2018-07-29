@@ -21,6 +21,10 @@ describe BudgetedLineItem do
     it { is_expected.to validate_presence_of(:user) }
   end
 
+  describe "#trasnactions" do
+    it { is_expected.to have_many(:transactions).dependent(:nullify)}
+  end
+
   describe "#start_date" do
     it { is_expected.to validate_presence_of(:start_date)}
   end

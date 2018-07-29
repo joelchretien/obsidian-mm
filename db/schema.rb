@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_28_021017) do
+ActiveRecord::Schema.define(version: 2018_07_06_004356) do
 
   create_table "budgeted_line_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "description", null: false
-    t.integer "amount_cents", null: false
-    t.integer "recurrence", null: false
-    t.integer "recurrence_multiplier", null: false
-    t.bigint "user_id", null: false
-    t.date "start_date", null: false
+    t.text "description"
+    t.integer "amount_cents"
+    t.integer "recurrence"
+    t.integer "recurrence_multiplier"
+    t.bigint "user_id"
+    t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -26,12 +26,14 @@ ActiveRecord::Schema.define(version: 2018_06_28_021017) do
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "description", null: false
-    t.integer "amount_cents", null: false
-    t.date "transaction_date", null: false
-    t.bigint "user_id", null: false
+    t.string "description"
+    t.integer "amount_cents"
+    t.date "transaction_date"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "budgeted_line_item_id"
+    t.index ["budgeted_line_item_id"], name: "index_transactions_on_budgeted_line_item_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -57,5 +59,6 @@ ActiveRecord::Schema.define(version: 2018_06_28_021017) do
   end
 
   add_foreign_key "budgeted_line_items", "users"
+  add_foreign_key "transactions", "budgeted_line_items"
   add_foreign_key "transactions", "users"
 end
