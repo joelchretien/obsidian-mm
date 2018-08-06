@@ -16,6 +16,6 @@ class TransactionsController < ApplicationController
 
     private
     def transaction_params
-      params.require(:transaction).permit(:budgeted_line_item_id)
+      params.require(:transaction).permit(:budgeted_line_item_id, :amount)
     end
 end

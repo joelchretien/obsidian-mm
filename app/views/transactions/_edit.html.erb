@@ -1,17 +1,18 @@
 <div class="modal-dialog">
-  <div class="modal-conten5">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="myModalLabel">Modal header</h3>
-    </div>
-    <div class="modal-body">
-      <%=form_for @transaction do |f|  %>
-        <%= f.text_field :amount_cents %> 
-      <% end %>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      <button class="btn btn-primary">Save changes</button>
-    </div>
+  <div class="modal-content">
+    <%=form_for @transaction do |f|  %>
+      <div class="modal-header">
+        <h3 id="myModalLabel">Assign Transaction</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <%= f.label :budgeted_line_item_id %>
+        <%= f.select :budgeted_line_item_id, current_user.budgeted_line_items.collect {|b| [ b.description, b.id ] }, { include_blank: 'Not assigned'}, { class: 'custom-select'} %>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+        <%= f.submit "Save", { class: 'btn btn-outline-primary'} %>
+      </div>
+    <% end %>
   </div>
 </div>
