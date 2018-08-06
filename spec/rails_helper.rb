@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'capybara/rspec'
+require 'capybara-webkit'
 require 'capybara-screenshot/rspec'
 require 'action_mailer'
 require 'email_spec'
@@ -16,6 +16,8 @@ require 'rspec/rails'
 ActiveRecord::Migration.maintain_test_schema!
 
 Dir[File.expand_path(File.join(File.dirname(__FILE__),"support","**","*.rb"))].each {|f| require f}
+
+Capybara.javascript_driver = :webkit
 
 RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller

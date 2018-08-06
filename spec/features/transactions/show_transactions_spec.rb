@@ -37,7 +37,7 @@ feature 'Show Transactions' do
     FactoryBot.create_list(:current_user_transactions, 3, user: current_user)
     current_user
   end
-  
+
   def create_other_user_with_transactions()
     other_user = FactoryBot.create :other_user
     FactoryBot.create_list(:current_user_transactions, 3, user: other_user)

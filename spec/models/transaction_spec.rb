@@ -4,6 +4,10 @@ describe Transaction do
     it { is_expected.to validate_presence_of(:user)}
   end
 
+  context "#budgeted_line_item" do
+    it { is_expected.to belong_to(:budgeted_line_item)}
+  end
+
   context "#description" do
     it { is_expected.to validate_presence_of(:description)}
   end

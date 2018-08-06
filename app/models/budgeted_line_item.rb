@@ -13,9 +13,12 @@ class BudgetedLineItem < ApplicationRecord
   belongs_to :user
   validates :user, presence: true
 
+  has_many :transactions, dependent: :nullify
+
   validates :start_date, presence: true
 
   self.per_page = 50
+  scope :search, -> (term) { where('description LIKE ?', "%#{term}%")}
 
   def recurrence_text
     if(no_recurrence?)
