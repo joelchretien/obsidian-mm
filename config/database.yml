@@ -18,5 +18,3 @@ test:
 production:
   <<: *default
   database: budget-tracking_production
-  username: budget-tracking
-  password: <%= ENV['BUDGET_TRACKING_DATABASE_PASSWORD'] %>

@@ -11,4 +11,5 @@ Devise.setup do |config|
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
   config.reset_password_within = 6.hours
   config.sign_out_via = :delete
+  config.secret_key = ENV['BUDGET_TRACKING_DEVISE_SECRET_KEY']
 end
