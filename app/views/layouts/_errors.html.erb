@@ -1,0 +1,8 @@
+<% if locals[:error_obj].errors.any? %>
+  <div class="alert alert-danger" role="alert">
+    <% locals[:error_obj].errors.full_messages.each do |msg| %>
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <li><%= msg %></li>
+    <% end %>
+  </div>
+<% end %>

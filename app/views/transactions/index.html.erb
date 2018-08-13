@@ -21,7 +21,7 @@
               <% else %>
                 <%= transaction.budgeted_line_item.description %>
               <% end %>
-              <%= link_to fa_icon("pencil"), edit_transaction_path(transaction), class:'btn btn-outline-primary btn-sm assign-budget', remote: true %>
+              <%= link_to fa_icon("pencil"), edit_account_transaction_path(@account, transaction), class:'btn btn-outline-primary btn-sm assign-budget', remote: true %>
             </td>
           </tr>
         <%end%>
