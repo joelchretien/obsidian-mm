@@ -10,8 +10,8 @@ class BudgetedLineItem < ApplicationRecord
 
   validates :recurrence_multiplier, presence: true
 
-  belongs_to :user
-  validates :user, presence: true
+  belongs_to :account
+  validates :account, presence: true
 
   has_many :transactions, dependent: :nullify
 

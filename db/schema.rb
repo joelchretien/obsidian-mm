@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_09_033737) do
+ActiveRecord::Schema.define(version: 2018_08_09_045904) do
+
+  create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -38,12 +46,12 @@ ActiveRecord::Schema.define(version: 2018_08_09_033737) do
     t.integer "amount_cents"
     t.integer "recurrence"
     t.integer "recurrence_multiplier"
-    t.bigint "user_id"
     t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_budgeted_line_items_on_user_id"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_budgeted_line_items_on_account_id"
   end
 
   create_table "imported_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -58,12 +66,12 @@ ActiveRecord::Schema.define(version: 2018_08_09_033737) do
     t.string "description"
     t.integer "amount_cents"
     t.date "transaction_date"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "budgeted_line_item_id"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["budgeted_line_item_id"], name: "index_transactions_on_budgeted_line_item_id"
-    t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -87,8 +95,9 @@ ActiveRecord::Schema.define(version: 2018_08_09_033737) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "budgeted_line_items", "users"
+  add_foreign_key "accounts", "users"
+  add_foreign_key "budgeted_line_items", "accounts"
   add_foreign_key "imported_files", "users"
+  add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "budgeted_line_items"
-  add_foreign_key "transactions", "users"
 end

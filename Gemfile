@@ -20,6 +20,7 @@ gem 'devise'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
 gem 'money-rails', '~>1'
+gem 'responders', '~> 2.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

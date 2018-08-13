@@ -3,14 +3,16 @@ feature 'assign budgeted line item to transaction' do
     transaction_name = "targetTransaction"
     target_budgeted_line_item = "targetBudget"
     current_user = create_current_user_with_transactions_and_budgets()
-    target_transaction = current_user.transactions[0]
+    target_transaction = current_user.accounts[0].transactions[0]
     target_transaction.description = transaction_name
-    current_user.budgeted_line_items[0].description = target_budgeted_line_item
-    current_user.budgeted_line_items[0].save!
+    account = current_user.accounts[0]
+    budgeted_line_item = account.budgeted_line_items[0]
+    budgeted_line_item.description = target_budgeted_line_item
+    budgeted_line_item.save!
     login_as current_user, scope: :user
-    visit transactions_path
+    visit account_transactions_path(account)
 
-    tr = find_row_by_transaction_id(target_transaction.id)
+    tr = find_by_data_id(target_transaction.id)
     expect(tr).not_to have_content(target_budgeted_line_item)
     tr.find('.assign-budget').click
     select target_budgeted_line_item, from: "transaction_budgeted_line_item_id"
@@ -20,14 +22,16 @@ feature 'assign budgeted line item to transaction' do
   end
 
   def create_current_user_with_transactions_and_budgets()
-    current_user = FactoryBot.create :current_user
-    FactoryBot.create_list(:current_user_transactions, 3, user: current_user)
-    FactoryBot.create_list(:current_user_bugeted_line_items, 3, user: current_user)
-    current_user
+    user = create :user
+    account = create :account, user: user
+    create_list(:transaction, 3, account: account)
+    create_list(:budgeted_line_item, 3, account: account) 
+    user
   end
   
-  def find_row_by_transaction_id(transaction_id)
-    find_string = 'tr[data-id="' + transaction_id.to_s+'"]'
+  #TODO: Remove this and only have it in the support folder
+  def find_by_data_id(data_id)
+    find_string = "[data-id=\"#{data_id.to_s}\"]"
     tr = find(find_string)
     tr
   end

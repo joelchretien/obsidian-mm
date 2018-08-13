@@ -1,21 +1,24 @@
 class TransactionsController < ApplicationController
   def index
-    @transactions = current_user.transactions.paginate(page: params[:page]).order('transaction_date DESC')
+    @account = current_user.accounts.find(params[:account_id])
+    @transactions = @account.transactions.paginate(page: params[:page]).order('transaction_date DESC')
   end
 
   def edit
-    @transaction = current_user.transactions.find(params[:id])
+    @account = current_user.accounts.find(params[:account_id])
+    @transaction = @account.transactions.find(params[:id])
   end
 
   def update
-    @transaction = current_user.transactions.find(params[:id])
+    @account = current_user.accounts.find(params[:account_id])
+    @transaction = @account.transactions.find(params[:id])
     if @transaction.update(transaction_params)
-      redirect_to transactions_path, notice: 'The changes were made to transaction'
+      redirect_to account_transactions_path, account: @account, notice: 'The changes were made to transaction'
     end
   end
 
-    private
-    def transaction_params
-      params.require(:transaction).permit(:budgeted_line_item_id, :amount)
-    end
+  private
+  def transaction_params
+    params.require(:transaction).permit(:budgeted_line_item_id, :amount)
+  end
 end

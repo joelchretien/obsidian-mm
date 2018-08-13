@@ -1,0 +1,13 @@
+<%=form_for account, remote: request.xhr?, data: { modal: true } do |f|  %>
+  <div class="modal-body">
+    <%= render 'layouts/errors', locals: { error_obj: @account} %>
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, { class: 'form-control'} %>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+    <%= f.submit "Save", { class: 'btn btn-outline-primary'} %>
+  </div>
+<% end %>

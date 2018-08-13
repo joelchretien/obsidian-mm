@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="table-responsive-sm">
+    <div class="my-2">
+      <%= link_to fa_icon("plus", text: "New Account"), new_account_path, data: { modal: true }, class: 'btn btn-primary btn-sm' %>
+    </div>
+    <table class="table table-align-middle">
+      <thead>
+        <tr >
+          <th style="min-width:120px">Name</th>
+          <th>Transactions Count</th>
+          <th>Budgeted Items Count</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @accounts.each do |account| %>
+          <tr data-id="<%= account.id %>">
+            <td><%= account.name %></td>
+            <td><%= account.transactions.count %></td>
+            <td><%= account.budgeted_line_items.count %></td>
+            <td>
+              <div class="btn-group">
+              <%= link_to fa_icon("pencil"), edit_account_path(account), data: { modal: true }, class:'btn btn-outline-primary btn-sm edit-button' %>
+              <%= link_to fa_icon("trash"), account_path(account), method: :delete, class: 'btn btn-outline-danger btn-sm delete-button', data: { confirm: "Are you sure you want to delete this account?  All transactions will be lost"} %>
+              </div>
+            </td>
+          </tr>
+        <%end%>
+        <tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="modal-window" class="modal"></div>
+</div>

@@ -5,6 +5,7 @@ require 'action_mailer'
 require 'email_spec'
 require 'email_spec/rspec'
 require 'support/controller_helpers'
+require 'support/feature_spec_helpers'
 require 'devise'
 require 'money-rails/test_helpers'
 
@@ -30,6 +31,7 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
   config.include Devise::Test::ControllerHelpers, :type => :controller
   config.include ControllerHelpers, :type => :controller
+  config.include FactoryBot::Syntax::Methods
 end
 
 Shoulda::Matchers.configure do |config|
