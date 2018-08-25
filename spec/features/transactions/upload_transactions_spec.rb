@@ -1,17 +1,18 @@
+require 'rails_helper'
+
 feature 'upload transaction file' do
-  scenario 'with valid file' do
-    current_user = FactoryBot.create :current_user
-    login_as current_user, scope: :user
-    visit transactions_path
+  scenario 'with valid file', js: true do
+    user = create :user
+    account = create :account, user: user
+    login_as user, scope: :user
+    visit account_transactions_path(account)
 
-    attach_file("Upload Transactions", Rails.root + "spec/fixtures/file/single_transactioni_with_headers.csv")
+    click_link "Upload Transactions"
+    attach_file("source_file", Rails.root + "spec/fixtures/files/single_transaction_with_headers.csv")
+    click_button "Save"
 
-    expect(current_user.transactions.count).to eq(1)
-    transaction = current_user.transactions[0]
+    expect(account.transactions.count).to eq(1)
+    transaction = account.transactions.first
     expect(transaction.description).to eq("Bill1")
-    expect(transaction.description).to eq("Bill1")
-    expect(transaction.description).to eq("Bill1")
-    
-    expect
   end
 end

@@ -1,5 +1,13 @@
-require 'rails_helper'
+describe ImportedFile do
+  context '#account' do
+    it { should belong_to :account }
+  end
 
-RSpec.describe ImportedFile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context '#transactions' do
+    it { should have_many :transactions }
+  end
+
+  context '#source_file' do
+    #TODO: Find out how to test active storage in models
+  end
 end

@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :imported_file do
-    user nil
-    filename "MyText"
+    sequence(:filename) { |n| "FileName#{n}" }
   end
 end

@@ -6,6 +6,8 @@ class Transaction < ApplicationRecord
   validates :transaction_date, presence: true
   monetize :amount_cents
   validates :amount_cents, presence: true
+  belongs_to :imported_file
+  validates :imported_file, presence: true
 
   self.per_page = 50
 

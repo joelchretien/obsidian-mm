@@ -13,11 +13,4 @@ feature "Edit an account" do
 
     expect(tr).to have_content(account_name)
   end
-
-  #TODO: Remove this and only have it in the support folder
-  def find_by_data_id(data_id)
-    find_string = "[data-id=\"#{data_id.to_s}\"]"
-    tr = find(find_string)
-    tr
-  end
 end

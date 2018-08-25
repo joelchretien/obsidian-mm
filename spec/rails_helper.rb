@@ -4,8 +4,6 @@ require 'capybara-screenshot/rspec'
 require 'action_mailer'
 require 'email_spec'
 require 'email_spec/rspec'
-require 'support/controller_helpers'
-require 'support/feature_spec_helpers'
 require 'devise'
 require 'money-rails/test_helpers'
 

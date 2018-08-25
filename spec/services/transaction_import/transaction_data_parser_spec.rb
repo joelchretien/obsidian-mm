@@ -5,20 +5,16 @@ describe TransactionImport::TransactionDataParser do
     describe '#call' do
       it "imports properly" do
         #TODO: Cut down on the expectations in this test
-        user = FactoryBot.create :current_user
-        transaction_csv = transaction_csv_with_header_and_non_iso_dates()
-        transaction_import = TransactionImport::TransactionDataParser.new(user, transaction_csv, {
-          includes_headers: true,
-          date_column_name: 'Date',
-          description_column_name: 'Transaction Details',
-          funds_in_column_name: 'Funds In',
-          funds_out_column_name: 'Funds Out',
-          date_format: '%m/%d/%Y'
-        })
+        user = create :user
+        account = create :account, user: user, import_configuration_options:include_headers_options
+        imported_file = ImportedFile.new()
+        imported_file.account = account
+        imported_file.source_file.attach(io: File.open(Rails.root + 'spec/support/transaction_csv_with_header_and_non_iso_dates.csv'), filename: 'attachment.csv', content_type: 'text/csv')
+        transaction_import = TransactionImport::TransactionDataParser.new(account, imported_file)
         transaction_import.call()
 
-        first_transaction = user.transactions[0]
-        second_transaction = user.transactions[1]
+        first_transaction = account.transactions[0]
+        second_transaction = account.transactions[1]
         expect(first_transaction.transaction_date).to eq(Date.new(2017,5,1))
         expect(first_transaction.description).to eq('INTERNET BILL PAYMENT CABLE')
         expect(first_transaction.amount).to eq(Money.new(-91))
