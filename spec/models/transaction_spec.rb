@@ -20,4 +20,9 @@ describe Transaction do
     it { is_expected.to monetize(:amount_cents)}
     it { is_expected.to validate_presence_of(:amount_cents) }
   end
+
+  context "#imported_file" do
+    it { is_expected.to belong_to :imported_file }
+    it { is_expected.to validate_presence_of :imported_file }
+  end
 end

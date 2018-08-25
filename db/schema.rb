@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_09_045904) do
+ActiveRecord::Schema.define(version: 2018_08_19_235727) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "import_configuration_options"
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
@@ -55,11 +56,11 @@ ActiveRecord::Schema.define(version: 2018_08_09_045904) do
   end
 
   create_table "imported_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.text "filename"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_imported_files_on_user_id"
+    t.index ["account_id"], name: "index_imported_files_on_account_id"
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -70,8 +71,10 @@ ActiveRecord::Schema.define(version: 2018_08_09_045904) do
     t.datetime "updated_at", null: false
     t.bigint "budgeted_line_item_id"
     t.bigint "account_id"
+    t.bigint "imported_file_id"
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["budgeted_line_item_id"], name: "index_transactions_on_budgeted_line_item_id"
+    t.index ["imported_file_id"], name: "index_transactions_on_imported_file_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -97,7 +100,8 @@ ActiveRecord::Schema.define(version: 2018_08_09_045904) do
 
   add_foreign_key "accounts", "users"
   add_foreign_key "budgeted_line_items", "accounts"
-  add_foreign_key "imported_files", "users"
+  add_foreign_key "imported_files", "accounts"
   add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "budgeted_line_items"
+  add_foreign_key "transactions", "imported_files"
 end

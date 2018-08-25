@@ -18,6 +18,8 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     @account.user = current_user
+    #TODO: Create controls to specify options
+    @account.import_configuration_options = { hello: "hello" }.to_json
     @account.save
     respond_modal_with @account, location: accounts_path
   end

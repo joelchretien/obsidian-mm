@@ -24,15 +24,9 @@ feature 'assign budgeted line item to transaction' do
   def create_current_user_with_transactions_and_budgets()
     user = create :user
     account = create :account, user: user
-    create_list(:transaction, 3, account: account)
+    imported_file = create :imported_file, account: account
+    create_list(:transaction, 3, account: account, imported_file: imported_file)
     create_list(:budgeted_line_item, 3, account: account) 
     user
-  end
-  
-  #TODO: Remove this and only have it in the support folder
-  def find_by_data_id(data_id)
-    find_string = "[data-id=\"#{data_id.to_s}\"]"
-    tr = find(find_string)
-    tr
   end
 end

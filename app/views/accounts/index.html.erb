@@ -16,7 +16,7 @@
         <% @accounts.each do |account| %>
           <tr data-id="<%= account.id %>">
             <td><%= account.name %></td>
-            <td><%= account.transactions.count %></td>
+            <td><%= link_to account.transactions.count.to_s + " transactions", account_transactions_path(account), class:'btn btn-outline-primary btn-sm show-transactions' %></td>
             <td><%= account.budgeted_line_items.count %></td>
             <td>
               <div class="btn-group">

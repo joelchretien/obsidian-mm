@@ -3,6 +3,7 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
+  reconnect: true
   username: <%= ENV['BUDGET_TRACKING_DATABASE_USERNAME'] %>
   password: <%= ENV['BUDGET_TRACKING_DATABASE_PASSWORD'] %>
   socket: /var/run/mysqld/mysqld.sock

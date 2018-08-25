@@ -7,7 +7,6 @@ feature 'Show Transactions' do
     other_user = create_user_with_transactions()
     other_account = other_user.accounts[0]
     login_as user, scope: :user
-    visit root_path
 
     visit account_transactions_path(account)
 
@@ -37,7 +36,8 @@ feature 'Show Transactions' do
   def create_user_with_transactions()
     user = FactoryBot.create :user
     account = FactoryBot.create :account, user: user
-    FactoryBot.create_list(:transaction, 3, account: account)
+    imported_file = FactoryBot.create :imported_file, account: account
+    FactoryBot.create_list(:transaction, 3, account: account, imported_file: imported_file)
     user
   end
 
