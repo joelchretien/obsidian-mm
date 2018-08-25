@@ -8,11 +8,9 @@ feature 'upload transaction file' do
     visit account_transactions_path(account)
 
     click_link "Upload Transactions"
-    attach_file("source_file", Rails.root + "spec/fixtures/files/single_transaction_with_headers.csv")
+    attach_file("imported_file_source_file", Rails.root + "spec/fixtures/files/single_transaction_with_headers.csv")
     click_button "Save"
 
-    expect(account.transactions.count).to eq(1)
-    transaction = account.transactions.first
-    expect(transaction.description).to eq("Bill1")
+    expect(page).to have_content("Bill1")
   end
 end

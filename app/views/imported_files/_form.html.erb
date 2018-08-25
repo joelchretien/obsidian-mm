@@ -1,0 +1,11 @@
+<%= form_for imported_file, url: account_imported_files_path(account), remote: request.xhr?, data: { modal: true }, multipart: true do |f| %>
+  <div class="modal-body">
+    <%= render 'layouts/errors', locals: { error_obj: account} %>
+    <label for="file">File to Upload</label>
+    <%= f.file_field :source_file, value: 'Attach File', class: 'btn btn-outline-primary btn-sm attach-transaction-file-button' %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+    <%= f.submit "Save", { class: 'btn btn-outline-primary submit-upload-transactions'} %>
+  </div>
+<% end %>

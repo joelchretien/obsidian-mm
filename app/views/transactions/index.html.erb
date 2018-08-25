@@ -1,26 +1,6 @@
 <div class="container">
   <div class="my-2">
-    <%= link_to "Upload Transactions", "#upload-transactions-modal", class: "btn btn-primary btn-sm", "data-toggle": "modal" %>
-    <div class="modal hide fade" id="upload-transactions-modal" title="My modal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3>Upload Transactions</h3>
-            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
-          </div>
-          <%= form_tag account_imported_files_path(@account), multipart: true do %>
-            <div class="modal-body">
-              <label for="file">File to Upload</label>
-              <%= file_field_tag :source_file, value: 'Attach File', class: 'btn btn-outline-primary btn-sm attach-transaction-file-button' %>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-outline-danger" data-dismiss="modal" aria-hidden="true">Close</button>
-              <%= submit_tag "Save", { class: 'btn btn-outline-primary submit-upload-transactions'} %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <%= link_to "Upload Transactions", new_account_imported_file_path(@account), data: { modal: true},  class: "btn btn-primary btn-sm" %>
   </div>
   <div class="table-responsive-sm">
     <table class="table table-align-middle">
