@@ -17,7 +17,7 @@
           <tr data-id="<%= account.id %>">
             <td><%= account.name %></td>
             <td><%= link_to account.transactions.count.to_s + " transactions", account_transactions_path(account), class:'btn btn-outline-primary btn-sm show-transactions' %></td>
-            <td><%= account.budgeted_line_items.count %></td>
+            <td><%= link_to account.budgeted_line_items.count.to_s + " items", account_budgeted_line_items_path(account), class:'btn btn-outline-primary btn-sm show-budgeted-line-items' %></td>
             <td>
               <div class="btn-group">
               <%= link_to fa_icon("pencil"), edit_account_path(account), data: { modal: true }, class:'btn btn-outline-primary btn-sm edit-button' %>

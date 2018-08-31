@@ -1,25 +1,35 @@
 
 <div class="container">
-    <div class="table-responsive-sm">
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="min-width:240px">Description</th>
-            <th>Amount</th>
-            <th>Recurrence</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @budgeted_line_items.each do |budgeted_line_item| %>
-            <tr>
-              <td><%= budgeted_line_item.description %></td>
-              <td><%= number_to_currency(budgeted_line_item.amount) %></td>
-              <td><%= budgeted_line_item.recurrence_text %></td>
-            </tr>
-          <%end%>
-          <tr>
-        </tbody>
-      </table>
+  <div class="table-responsive-sm">
+    <div class="my-2">
+      <%= link_to fa_icon("plus", text: "New Item"), new_account_budgeted_line_item_path, data: { modal: true }, class: 'btn btn-primary btn-sm' %>
     </div>
-    <%= will_paginate @budgeted_line_items, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="min-width:240px">Description</th>
+          <th>Amount</th>
+          <th>Recurrence</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @budgeted_line_items.each do |budgeted_line_item| %>
+          <tr data-id="<%= budgeted_line_item.id %>">
+            <td><%= budgeted_line_item.description %></td>
+            <td><%= number_to_currency(budgeted_line_item.amount) %></td>
+            <td><%= budgeted_line_item.recurrence_text %></td>
+            <td>
+              <div class="btn-group">
+              <%= link_to fa_icon("pencil"), edit_budgeted_line_item_path(budgeted_line_items), data: { modal: true }, class:'btn btn-outline-primary btn-sm edit-button' %>
+              <%= link_to fa_icon("trash"), budgeted_line_item_path(budgeted_line_item), method: :delete, class: 'btn btn-outline-danger btn-sm delete-button', data: { confirm: "Are you sure you want to delete this budget item?  All transactions will be lost"} %>
+              </div>
+            </td>
+          </tr>
+        <%end%>
+        <tr>
+      </tbody>
+    </table>
   </div>
+  <%= will_paginate @budgeted_line_items, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+</div>
