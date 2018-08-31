@@ -20,9 +20,11 @@ module TransactionImport
         header_converters: lambda {|f| f.strip},
         converters: lambda {|f| f ? f.strip : nil}
       }
+      transactions = []
       CSV.parse(@imported_file.source_file.download, csv_options) do |row|
-        create_transaction_from_row(row)
+        transactions << create_transaction_from_row(row)
       end
+      Transaction.import(transactions)
     end
 
     private
@@ -45,7 +47,7 @@ module TransactionImport
       transaction.description = description_column
       transaction.transaction_date = date_column
       transaction.amount_cents = amount_column
-      transaction.save!()
+      transaction
     end
 
     def default_options()
