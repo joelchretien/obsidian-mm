@@ -1,4 +1,4 @@
-feature "Edit an account" do
+feature "Edit a budgeted line item" do
   scenario "with valid parameters", js: true do
     user = create :user
     login_as user
@@ -9,9 +9,10 @@ feature "Edit an account" do
 
     tr = find_by_data_id(budgeted_line_item.id)
     tr.find('.edit-button').click
-    fill_in('budgeted_line_item_name', with: budgeted_line_item_name)
+    fill_in('budgeted_line_item_description', with: budgeted_line_item_name)
     click_button('Save')
+    save_and_open_page
 
-    expect(tr).to have_content(budgeted_line_item_name)
+    expect(page).to have_content(budgeted_line_item_name)
   end
 end

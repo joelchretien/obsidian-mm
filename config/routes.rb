@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :accounts do
     resources :transactions, only: [:index, :edit, :update]
-    resources :budgeted_line_items, only: [:new, :create, :edit, :update, :index]
+    resources :budgeted_line_items, only: [:new, :create, :edit, :update, :index, :destroy]
     resources :imported_files, only: [:new, :create]
   end
 end
