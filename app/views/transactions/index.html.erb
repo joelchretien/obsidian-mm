@@ -3,7 +3,7 @@
     <%= link_to "Upload Transactions", new_account_imported_file_path(@account), data: { modal: true},  class: "btn btn-primary btn-sm" %>
   </div>
   <div class="table-responsive-sm">
-    <table class="table table-align-middle">
+    <table class="table">
       <thead>
         <tr >
           <th style="min-width:120px">Date</th>
@@ -28,10 +28,8 @@
             </td>
           </tr>
         <%end%>
-        <tr>
       </tbody>
     </table>
   </div>
   <%= will_paginate @transactions, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
-  <div id="modal-window" class="modal" ></div>
 </div>
