@@ -1,11 +1,13 @@
 <div class="container">
-  <div class="my-2">
-    <%= link_to "Upload Transactions", new_account_imported_file_path(@account), data: { modal: true},  class: "btn btn-primary btn-sm" %>
+  <div class="row my-2">
+    <div class="col">
+      <%= link_to "Upload Transactions", new_account_imported_file_path(@account), data: { modal: true},  class: "btn btn-primary btn-sm" %>
+    </div>
   </div>
   <div class="table-responsive-sm">
-    <table class="table table-align-middle">
+    <table class="table">
       <thead>
-        <tr >
+        <tr>
           <th style="min-width:120px">Date</th>
           <th style="min-width:240px">Description</th>
           <th>Amount</th>
@@ -28,10 +30,8 @@
             </td>
           </tr>
         <%end%>
-        <tr>
       </tbody>
     </table>
   </div>
   <%= will_paginate @transactions, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
-  <div id="modal-window" class="modal" ></div>
 </div>

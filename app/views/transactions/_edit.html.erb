@@ -2,12 +2,18 @@
   <div class="modal-content">
     <%=form_for [@account, @transaction] do |f|  %>
       <div class="modal-header">
-        <h3 id="myModalLabel">Assign Transaction</h3>
+        <h4 id="myModalLabel">Assign Transaction</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       </div>
       <div class="modal-body">
-        <%= f.label :budgeted_line_item_id %>
-        <%= f.select :budgeted_line_item_id, @account.budgeted_line_items.collect {|b| [ b.description, b.id ] }, { include_blank: 'Not assigned'}, { class: 'custom-select'} %>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="form-group">
+              <%= f.label :budgeted_line_item_id %>
+              <%= f.select :budgeted_line_item_id, @account.budgeted_line_items.collect {|b| [ b.description, b.id ] }, { include_blank: 'Not assigned'}, { class: 'custom-select'} %>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline-danger" data-dismiss="modal" aria-hidden="true">Close</button>

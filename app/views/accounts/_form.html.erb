@@ -1,9 +1,15 @@
 <%=form_for account, remote: request.xhr?, data: { modal: true } do |f|  %>
   <div class="modal-body">
-    <%= render 'layouts/errors', locals: { error_obj: account} %>
-    <div class="form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name, { class: 'form-control'} %>
+    <div class="container-fluid">
+      <div class="row">
+        <%= render 'layouts/errors', locals: { error_obj: account} %>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, { class: 'form-control'} %>
+        </div>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
