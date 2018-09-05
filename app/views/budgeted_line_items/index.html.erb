@@ -1,9 +1,8 @@
-
 <div class="container">
+  <div class="my-2">
+    <%= link_to fa_icon("plus", text: "New Item"), new_account_budgeted_line_item_path, data: { modal: true }, class: 'btn btn-primary btn-sm' %>
+  </div>
   <div class="table-responsive-sm">
-    <div class="my-2">
-      <%= link_to fa_icon("plus", text: "New Item"), new_account_budgeted_line_item_path, data: { modal: true }, class: 'btn btn-primary btn-sm' %>
-    </div>
     <table class="table">
       <thead>
         <tr>
@@ -21,13 +20,12 @@
             <td><%= budgeted_line_item.recurrence_text %></td>
             <td>
               <div class="btn-group">
-              <%= link_to fa_icon("pencil"), edit_account_budgeted_line_item_path(@account, budgeted_line_item), data: { modal: true }, class:'btn btn-outline-primary btn-sm edit-button' %>
-              <%= link_to fa_icon("trash"), account_budgeted_line_item_path(@account, budgeted_line_item), method: :delete, class: 'btn btn-outline-danger btn-sm delete-button', data: { confirm: "Are you sure you want to delete this budget item?  All transactions will be lost"} %>
+                <%= link_to fa_icon("pencil"), edit_account_budgeted_line_item_path(@account, budgeted_line_item), data: { modal: true }, class:'btn btn-outline-primary btn-sm edit-button' %>
+                <%= link_to fa_icon("trash"), account_budgeted_line_item_path(@account, budgeted_line_item), method: :delete, class: 'btn btn-outline-danger btn-sm delete-button', data: { confirm: "Are you sure you want to delete this budget item?  All transactions will be lost"} %>
               </div>
             </td>
           </tr>
         <%end%>
-        <tr>
       </tbody>
     </table>
   </div>
