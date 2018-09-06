@@ -1,2 +1,4 @@
-<% content_for :title, "Edit Item" %>
-<%= render 'form', account: @account, budgeted_line_item: @budgeted_line_item %>
+<% content_for :title, "Edit Budget" %>
+<%=form_for @budgeted_line_item, url: account_budgeted_line_item_path(@account, @budgeted_line_item), remote: request.xhr?, data: { modal: true } do |f|  %>
+  <%= render 'form', account: @account, budgeted_line_item: @budgeted_line_item, f: f %>
+<% end %>

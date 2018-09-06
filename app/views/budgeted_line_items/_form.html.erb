@@ -1,29 +1,31 @@
-<%=form_for budgeted_line_item, url: account_budgeted_line_item_path(account, budgeted_line_item), remote: request.xhr?, data: { modal: true } do |f|  %>
-  <div class="modal-body">
-    <%= render 'layouts/errors', locals: { error_obj: budgeted_line_item} %>
-    <div class="form-group">
-      <%= f.label :description %>
-      <%= f.text_field :description, { class: 'form-control'} %>
-    </div>
-    <div class="form-group">
-      <%= f.label :amount %>
-      <%= f.text_field :amount, { class: 'form-control'} %>
-    </div>
-    <div class="form-group">
-      <%= f.label :recurrence %>
-      <%= f.select :recurrence, BudgetedLineItem.recurrences.keys.map { |r| [r.humanize, r] } %>
-    </div>
-    <div class="form-group">
-      <%= f.label :recurrence_multiplier %>
-      <%= f.number_field :recurrence_multiplier, { class: 'form-control'} %>
-    </div>
-    <div class="form-group">
-      <%= f.label :start_date %>
-      <%= f.date_select :start_date, { class: 'form-control'} %>
-    </div>
+<div class="modal-body">
+  <%= render 'layouts/errors', locals: { error_obj: budgeted_line_item} %>
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_field :description, { class: 'form-control'} %>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-outline-danger" data-dismiss="modal" aria-hidden="true">Close</button>
-    <%= f.submit "Save", { class: 'btn btn-outline-primary'} %>
+  <div class="form-group">
+    <%= f.label :amount %>
+    <%= f.text_field :amount, { class: 'form-control'} %>
   </div>
-<% end %>
+  <div class="form-group">
+    <%= f.label :recurrence %>
+    <%= f.select :recurrence, BudgetedLineItem.recurrences.keys.map { |r| [r.humanize, r] }, {}, {class: 'form-control'} %>
+  </div>
+  <div class="form-group">
+    <%= f.label :recurrence_multiplier %>
+    <%= f.number_field :recurrence_multiplier, { class: 'form-control'} %>
+  </div>
+  <div class="form-group">
+    <%= f.label :start_date %>
+    <%= f.date_select :start_date, {}, { class: 'form-control'} %>
+  </div>
+  <div class="form-group">
+    <%= f.label :end_date %>
+    <%= f.date_select :end_date, {}, { class: 'form-control'} %>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-outline-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+  <%= f.submit "Save", { class: 'btn btn-outline-primary'} %>
+</div>

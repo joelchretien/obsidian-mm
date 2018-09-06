@@ -11,7 +11,6 @@ feature "Edit a budgeted line item" do
     tr.find('.edit-button').click
     fill_in('budgeted_line_item_description', with: budgeted_line_item_name)
     click_button('Save')
-    save_and_open_page
 
     expect(page).to have_content(budgeted_line_item_name)
   end
