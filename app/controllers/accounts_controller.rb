@@ -33,7 +33,7 @@ class AccountsController < ApplicationController
   def destroy
     @account = current_user.accounts.find(params[:id])
     @account.destroy
-    redirect_to accounts_path
+   redirect_to accounts_path
   end
 
   private 

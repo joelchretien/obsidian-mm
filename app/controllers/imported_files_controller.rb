@@ -8,10 +8,8 @@ class ImportedFilesController < ApplicationController
   end
   def create
     @account = Account.find(params[:account_id])
-
     #TODO: Create controls that enable this to be setup
     @account.import_configuration_options = include_headers_options
-
     @imported_file = ImportedFile.new(imported_file_params)
     @imported_file.account = @account
     @imported_file.save!
