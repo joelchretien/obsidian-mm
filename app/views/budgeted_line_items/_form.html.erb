@@ -1,4 +1,4 @@
-<%=form_for budgeted_line_item, url: account_budgeted_line_items_path(account), remote: request.xhr?, data: { modal: true } do |f|  %>
+<%=form_for budgeted_line_item, url: account_budgeted_line_item_path(account, budgeted_line_item), remote: request.xhr?, data: { modal: true } do |f|  %>
   <div class="modal-body">
     <%= render 'layouts/errors', locals: { error_obj: budgeted_line_item} %>
     <div class="form-group">

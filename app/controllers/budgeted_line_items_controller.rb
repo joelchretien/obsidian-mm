@@ -30,7 +30,7 @@ class BudgetedLineItemsController < ApplicationController
     @account = current_user.accounts.find(params[:account_id])
     @budgeted_line_item = @account.budgeted_line_items.find(params[:id])
     @budgeted_line_item.update(budgeted_line_item_params)
-    respond_modal_with @budgeted_line_item, location: account_budgeted_line_items_path(@account)
+    respond_modal_with @budgeted_line_item, location: account_budgeted_line_items_path(@account, @budgeted_line_item)
   end
 
   def destroy
