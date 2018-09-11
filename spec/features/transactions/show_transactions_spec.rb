@@ -23,14 +23,14 @@ feature 'Show Transactions' do
     visit account_transactions_path(user.accounts[0])
 
     expect(page).to have_css('.pagination')
-    expect(page).to have_content(transactions[0].description)
-    expect(page).not_to have_content(transactions[2].description)
+    expect(page).to have_content(transactions[2].description)
+    expect(page).not_to have_content(transactions[0].description)
 
     click_link "2"
 
     expect(page).to have_css('.pagination')
-    expect(page).not_to have_content(transactions[0].description)
-    expect(page).to have_content(transactions[2].description)
+    expect(page).not_to have_content(transactions[2].description)
+    expect(page).to have_content(transactions[0].description)
   end
 
   def create_user_with_transactions()

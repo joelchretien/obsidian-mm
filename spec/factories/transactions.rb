@@ -7,9 +7,13 @@ FactoryBot.define do
     Money.new(n)
   end
 
+  sequence(:transaction_date) do |n|
+    Date.today + n.day
+  end
+
   factory :transaction do
     description
     amount
-    transaction_date Date.today
+    transaction_date
   end
 end

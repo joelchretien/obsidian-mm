@@ -14,4 +14,10 @@ class Transaction < ApplicationRecord
   def user
     account.user
   end
+
+  def is_duplicate(transaction)
+    description == transaction.description &&
+      transaction_date == transaction.transaction_date &&
+      amount_cents == transaction.amount_cents
+  end
 end
