@@ -24,7 +24,8 @@ module TransactionImport
       CSV.parse(@imported_file.source_file.download, csv_options) do |row|
         transactions << create_transaction_from_row(row)
       end
-      Transaction.import(transactions)
+      transaction_importer = TransactionDataImporter.new(@account, transactions)
+      transaction_importer.call()
     end
 
     private
