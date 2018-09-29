@@ -4,9 +4,7 @@ describe TransactionImport::TransactionDataParser do
   context 'for a transaction file with a header and named columns' do
     describe '#call' do
       it "imports properly" do
-        #TODO: Cut down on the expectations in this test
-        user = create :user
-        account = create :account, user: user, import_configuration_options:include_headers_options
+        account = create :account, import_configuration_options:include_headers_options
         imported_file = ImportedFile.new()
         imported_file.account = account
         imported_file.source_file.attach(io: File.open(Rails.root + 'spec/support/transaction_csv_with_header_and_non_iso_dates.csv'), filename: 'attachment.csv', content_type: 'text/csv')

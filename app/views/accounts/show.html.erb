@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row my-2">
+    <div class="col">
+      <%= line_chart @transactions_snapshots.group_by_date(:transaction_date) %>
+    </div>
+    <div class="col">
+      <%# Will show warnings here %>
+
+    </div>
+  </div>
+  <div class="row my-2">
+    <div class="col">
+      <div class="table-responsive-sm">
+        <table class="table table-align-middle">
+          <thead>
+            <tr >
+              <th style="min-width:120px">Name</th>
+              <th>Transactions Count</th>
+              <th>Budgeted Items Count</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @transactions_snapshots.each do |transaction| %>
+              <tr>
+                <td><%= transaction.description %></td>
+                <td><%= transaction.amount_cents %></td>
+                <td><%= transaction.remaining_balance %></td>
+              </tr>
+            <%end%>
+            <tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

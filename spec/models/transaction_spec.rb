@@ -26,6 +26,30 @@ describe Transaction do
     it { is_expected.to validate_presence_of :imported_file }
   end
 
+  context '#between_dates' do
+    it 'does not return transactions before start date' do
+      transaction = create :transaction, transaction_date: Date.today - 1.month - 1.day
+
+      transactions = Transaction.between_dates(1.month.ago, Date.today)
+
+      expect(transactions).not_to include(transaction)
+    end
+    it 'does not return transactions after the end date' do
+      transaction = create :transaction, transaction_date: Date.today + 1.month + 1.day
+
+      transactions = Transaction.between_dates(Date.today, Date.today + 1.month)
+
+      expect(transactions).not_to include(transaction)
+    end
+    it 'returns transactions between the start and end date' do
+      transaction = create :transaction, transaction_date: Date.today
+
+      transactions = Transaction.between_dates(1.month.ago, Date.today + 1.month)
+
+      expect(transactions).to include(transaction)
+    end
+  end
+
   context "#is_duplicate" do
     it 'returns true when description, amount and transaction_date match' do
       description = 'desc'

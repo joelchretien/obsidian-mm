@@ -5,6 +5,12 @@ class AccountsController < ApplicationController
     @accounts = current_user.accounts.order('name')
   end
 
+  def show
+    @account = current_user.accounts.find(params[:id])
+    transactions = @account.transactions.where('transaction_date > ?', Date.today - 1.month)
+
+  end
+
   def new
     @account = Account.new
     respond_modal_with @account
@@ -18,7 +24,6 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     @account.user = current_user
-    #TODO: Create controls to specify options
     @account.import_configuration_options = { hello: "hello" }.to_json
     @account.save
     respond_modal_with @account, location: accounts_path

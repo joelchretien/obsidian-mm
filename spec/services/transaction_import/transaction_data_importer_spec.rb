@@ -3,7 +3,7 @@ describe TransactionImport::TransactionDataImporter do
 
   context 'for a transactions that overlap' do
     describe '#call' do
-      it 'doesn\'t duplicate transactions' do
+      it 'does not duplicate transactions' do
         #TODO: Remove the complexity here.  Just add the same transactions
         #twice.  Create another test for adding a file with one transaction and
         #another with two of the same.

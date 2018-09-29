@@ -1,5 +1,8 @@
 FactoryBot.define do
+  sequence(:filename) { |n| "FileName#{n}" }
+
   factory :imported_file do
-    sequence(:filename) { |n| "FileName#{n}" }
+    filename
+    account
   end
 end

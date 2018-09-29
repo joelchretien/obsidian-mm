@@ -10,16 +10,6 @@ module TransactionImport
     end
 
     def call()
-<<<<<<< HEAD
-<<<<<<< HEAD
-      Transaction.import(transactions)
-=======
-      # last_transaction = @account.transactions.order('transaction_date DESC').first
-      # last_day_transaction = @account.transactions.where(transaction_date: last_transaction.transaction_date)
-
-      Transaction.import(@transactions)
->>>>>>> WIP: on hold
-=======
       existing_last_day_transactions = @account.transactions_for_last_day
       last_day = get_last_day(existing_last_day_transactions)
 
@@ -46,7 +36,6 @@ module TransactionImport
           existing_transaction.is_duplicate(new_transaction)
         end
       end
->>>>>>> Handled cases where transactions are duplicated
     end
   end
 end
