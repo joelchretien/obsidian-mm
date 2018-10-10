@@ -7,8 +7,10 @@ class AccountsController < ApplicationController
 
   def show
     @account = current_user.accounts.find(params[:id])
-    transactions = @account.transactions.where('transaction_date > ?', Date.today - 1.month)
-
+    transaction_timeline_service = TransactionReporting::TransactionTimeline.new(@account, Date.today - 1.month, Date.today + 1.month)
+    @transaction_timeline = transaction_timeline_service.call()
+    # @transactions_for_chart_service = TransactionReporting::TransactionsForChart.new(@transaction_timeline)
+    # @transactions_for_chart = @transactions_for_chart_service.call()
   end
 
   def new

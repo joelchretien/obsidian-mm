@@ -2,6 +2,7 @@ module TransactionReporting
   describe TransactionTimeline do
     context '#call' do
       context 'transactions' do
+
         context 'when a transaction is between the start date and end date' do
           it 'is included in the timeline' do
             transaction = create :transaction, transaction_date: Date.today
@@ -33,6 +34,7 @@ module TransactionReporting
           end
         end
       end
+
       context 'budgeted line items' do
         context 'when it is overdue' do
           it 'returns a transaction date of today' do
@@ -62,16 +64,38 @@ module TransactionReporting
             expect(timelines[0].transaction_date).to eq(Date.today)
           end
         end
+
         context 'when it is not overdue' do
-          it 'returns the expected timeline item date'
-          it 'returns multiple timeline items for a budgeted line item that repeats itself before the end date'
+          it 'returns the expected timeline item date' do
+            account = create_transaction_and_budget() do |transaction, budget|
+              transaction.transaction_date = Date.today - 2.weeks
+              budget.recurrence = :monthly
+              budget.recurrence_multiplier = 1
+            end
+
+            report = one_month_window_timeline(account)
+            timelines = report.call
+
+            expect(timelines.count).to eq(2)
+            expect(timelines[1].transaction_date).to eq(Date.today - 2.weeks + 1.month)
+          end
         end
+
         context 'when it is expected after the end date' do
-          it 'should not be included'
+          it 'should not be included' do
+            account = create_transaction_and_budget() do |transaction, budget|
+              transaction.transaction_date = Date.today + 2.weeks
+              budget.recurrence = :monthly
+              budget.recurrence_multiplier = 1
+            end
+
+            report = one_month_window_timeline(account)
+            timelines = report.call
+
+            expect(timelines.count).to eq(1)
+          end
         end
-        context 'when it is expected before the start date' do
-          it 'returns a transaction date of today'
-        end
+
       end
 
     end

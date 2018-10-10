@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row my-2">
     <div class="col">
-      <%= line_chart @transactions_snapshots.group_by_date(:transaction_date) %>
+      <%# <%= line_chart @transactions_snapshot.group_by_day(:transaction_date).count %>
     </div>
     <div class="col">
       <%# Will show warnings here %>
@@ -21,11 +21,11 @@
             </tr>
           </thead>
           <tbody>
-            <% @transactions_snapshots.each do |transaction| %>
+            <% @transaction_timeline.each do |transaction| %>
               <tr>
                 <td><%= transaction.description %></td>
                 <td><%= transaction.amount_cents %></td>
-                <td><%= transaction.remaining_balance %></td>
+       <%#          <td><%= transaction.remaining_balance %></td>
               </tr>
             <%end%>
             <tr>
