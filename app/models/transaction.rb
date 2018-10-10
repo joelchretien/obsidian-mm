@@ -8,6 +8,7 @@ class Transaction < ApplicationRecord
   validates :amount_cents, presence: true
   belongs_to :imported_file
   validates :imported_file, presence: true
+  scope :between_dates, -> (start_date, end_date) { where("transaction_date between ? and ?", start_date, end_date)}
 
   self.per_page = 50
 

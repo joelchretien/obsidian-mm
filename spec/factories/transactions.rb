@@ -15,5 +15,7 @@ FactoryBot.define do
     description
     amount
     transaction_date
+    account
+    imported_file
   end
 end
