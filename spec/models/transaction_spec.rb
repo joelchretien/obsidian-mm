@@ -1,23 +1,23 @@
 describe Transaction do
   context "#account" do
-    it { is_expected.to belong_to(:account)}
-    it { is_expected.to validate_presence_of(:account)}
+    it { is_expected.to belong_to(:account) }
+    it { is_expected.to validate_presence_of(:account) }
   end
 
   context "#budgeted_line_item" do
-    it { is_expected.to belong_to(:budgeted_line_item)}
+    it { is_expected.to belong_to(:budgeted_line_item) }
   end
 
   context "#description" do
-    it { is_expected.to validate_presence_of(:description)}
+    it { is_expected.to validate_presence_of(:description) }
   end
 
   context "#transaction_date" do
-    it { is_expected.to validate_presence_of(:transaction_date)}
+    it { is_expected.to validate_presence_of(:transaction_date) }
   end
 
   context "#amount_cents" do
-    it { is_expected.to monetize(:amount_cents)}
+    it { is_expected.to monetize(:amount_cents) }
     it { is_expected.to validate_presence_of(:amount_cents) }
   end
 
@@ -26,22 +26,22 @@ describe Transaction do
     it { is_expected.to validate_presence_of :imported_file }
   end
 
-  context '#between_dates' do
-    it 'does not return transactions before start date' do
+  context "#between_dates" do
+    it "does not return transactions before start date" do
       transaction = create :transaction, transaction_date: Date.today - 1.month - 1.day
 
       transactions = Transaction.between_dates(1.month.ago, Date.today)
 
       expect(transactions).not_to include(transaction)
     end
-    it 'does not return transactions after the end date' do
+    it "does not return transactions after the end date" do
       transaction = create :transaction, transaction_date: Date.today + 1.month + 1.day
 
       transactions = Transaction.between_dates(Date.today, Date.today + 1.month)
 
       expect(transactions).not_to include(transaction)
     end
-    it 'returns transactions between the start and end date' do
+    it "returns transactions between the start and end date" do
       transaction = create :transaction, transaction_date: Date.today
 
       transactions = Transaction.between_dates(1.month.ago, Date.today + 1.month)
@@ -51,30 +51,30 @@ describe Transaction do
   end
 
   context "#is_duplicate" do
-    it 'returns true when description, amount and transaction_date match' do
-      description = 'desc'
+    it "returns true when description, amount and transaction_date match" do
+      description = "desc"
       transaction_date = Date.today
       amount = 5
       transaction1 = Transaction.new(description: description, transaction_date: transaction_date, amount: amount)
       transaction2 = Transaction.new(description: description, transaction_date: transaction_date, amount: amount)
       expect(transaction1.is_duplicate(transaction2)).to be(true)
     end
-    it 'returns false when the amount does not match' do
-      description = 'desc'
+    it "returns false when the amount does not match" do
+      description = "desc"
       transaction_date = Date.today
       transaction1 = Transaction.new(description: description, transaction_date: transaction_date, amount: 5)
       transaction2 = Transaction.new(description: description, transaction_date: transaction_date, amount: 3)
       expect(transaction1.is_duplicate(transaction2)).to be(false)
     end
-    it 'returns false when the description does not match' do
+    it "returns false when the description does not match" do
       transaction_date = Date.today
       amount = 5
-      transaction1 = Transaction.new(description: 'desc1', transaction_date: transaction_date, amount: amount)
-      transaction2 = Transaction.new(description: 'desc2', transaction_date: transaction_date, amount: amount)
+      transaction1 = Transaction.new(description: "desc1", transaction_date: transaction_date, amount: amount)
+      transaction2 = Transaction.new(description: "desc2", transaction_date: transaction_date, amount: amount)
       expect(transaction1.is_duplicate(transaction2)).to be(false)
     end
-    it 'returns false when the amount does not match' do
-      description = 'desc'
+    it "returns false when the amount does not match" do
+      description = "desc"
       amount = 5
       transaction1 = Transaction.new(description: description, transaction_date: Date.today, amount: amount)
       transaction2 = Transaction.new(description: description, transaction_date: Date.today + 1.day, amount: amount)

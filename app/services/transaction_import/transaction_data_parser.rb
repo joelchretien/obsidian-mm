@@ -1,8 +1,7 @@
-require 'csv'
+require "csv"
 
 module TransactionImport
   class TransactionDataParser
-
     attr_accessor :account
     attr_accessor :imported_file
     attr_accessor :options
@@ -14,11 +13,11 @@ module TransactionImport
       @options = import_options.reverse_merge(default_options)
     end
 
-    def call()
+    def call
       csv_options = {
         headers: true,
-        header_converters: lambda {|f| f.strip},
-        converters: lambda {|f| f ? f.strip : nil}
+        header_converters: lambda { |f| f.strip },
+        converters: lambda  { |f| f ? f.strip : nil }
       }
       transactions = []
       CSV.parse(@imported_file.source_file.download, csv_options) do |row|
@@ -33,10 +32,10 @@ module TransactionImport
     def create_transaction_from_row(row)
       date_column_string = row[@options["date_column_name"]]
       description_column = row[@options["description_column_name"]]
-      funds_in_column_string= row[@options["funds_in_column_name"]]
+      funds_in_column_string = row[@options["funds_in_column_name"]]
       funds_out_column_string = row[@options["funds_out_column_name"]]
       date_column = Date.strptime(date_column_string, @options["date_format"])
-      if(funds_in_column_string.nil?)
+      if funds_in_column_string.nil?
         amount_column = -Float(funds_out_column_string)
       else
         amount_column = Float(funds_in_column_string)
@@ -51,14 +50,14 @@ module TransactionImport
       transaction
     end
 
-    def default_options()
+    def default_options
       {
         "includes_headers": true,
-        "date_column_name": 'date',
-        "description_column_name": 'description',
-        "funds_in_column_name": 'funds_in',
-        "funds_out_column_name": 'funds_out',
-        "date_format": '%Y-%m-%d',
+        "date_column_name": "date",
+        "description_column_name": "description",
+        "funds_in_column_name": "funds_in",
+        "funds_out_column_name": "funds_out",
+        "date_format": "%Y-%m-%d",
         "date_position": 1,
         "description_position": 2,
         "funds_in_position": 3,

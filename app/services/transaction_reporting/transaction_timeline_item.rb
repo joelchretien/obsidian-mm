@@ -1,6 +1,5 @@
 module TransactionReporting
   class TransactionTimelineItem
-
     attr_reader :description, :amount_cents, :transaction_date, :expected_date
 
     def initialize(description, amount_cents, transaction_date, expected_date)

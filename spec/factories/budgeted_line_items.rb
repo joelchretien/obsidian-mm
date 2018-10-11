@@ -1,5 +1,4 @@
 FactoryBot.define do
-
   factory :budgeted_line_item do
     sequence(:description) { |n| "BudgetedLineItem#{n}" }
     sequence(:amount) { |n| Money.new(n) }

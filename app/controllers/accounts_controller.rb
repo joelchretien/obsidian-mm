@@ -2,7 +2,7 @@ class AccountsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @accounts = current_user.accounts.order('name')
+    @accounts = current_user.accounts.order("name")
   end
 
   def show
@@ -40,10 +40,10 @@ class AccountsController < ApplicationController
   def destroy
     @account = current_user.accounts.find(params[:id])
     @account.destroy
-   redirect_to accounts_path
+    redirect_to accounts_path
   end
 
-  private 
+  private
 
   def account_params
     params.require(:account).permit(:name)

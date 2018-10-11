@@ -1,40 +1,17 @@
-##
-# .rubocop.yml
+inherit_gem:
+  rubocop-rails_config:
+    - config/rails.yml
+
 AllCops:
-  TargetRubyVersion: 2.5
-  Include:
-    - 'config.ru'
-    - 'Gemfile'
-    - 'Guardfile'
-    - 'Rakefile'
+  TargetRubyVersion: 2.5.1
   Exclude:
-    - 'app/views/**/*'
     - 'bin/*'
     - 'db/schema.rb'
-    - 'db/migrate/*'
-    - 'log/**/*'
-    - 'node_modules/**/*'
-    - 'public/**/*'
-    - 'scripts/**/*'
-    - 'vendor/**/*'
-    - 'tmp/**/*'
-    - '.git/**/*' Documentation:
-  Enabled: false IndentationConsistency:
-  EnforcedStyle: 'rails' Metrics/BlockLength:
-  Exclude:
-    - 'Guardfile' Naming/FileName:
-  Exclude:
-    - 'Gemfile'
-    - 'Guardfile'
-    - 'Rakefile' Rails:
-  Enabled: true
-##
-# ./spec/.rubocop.yml
-inherit_from:
-  - ../.rubocop.yml StringLiterals:
-  EnforcedStyle: double_quotes
-  Exclude:
-    - './*_helper.rb'
-# describe block
-Metrics/BlockLength:
+
+Style/FrozenStringLiteralComment:
   Enabled: false
+
+Layout/IndentationConsistency:
+  Enabled: true
+  #Normal is what the auto-indent function of vim uses.
+  EnforcedStyle: normal

@@ -1,8 +1,7 @@
 module TransactionReporting
   describe LatestTransactionsByDescriptions do
-
-   context '#call' do
-      it 'returns the latest by description' do
+    context "#call" do
+      it "returns the latest by description" do
         account = create :account
         transaction1 = transactions_with_same_descriptions(account)
         transaction2 = transactions_with_same_descriptions(account)

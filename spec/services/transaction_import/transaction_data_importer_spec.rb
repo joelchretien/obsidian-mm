@@ -1,12 +1,12 @@
 describe TransactionImport::TransactionDataImporter do
   include CsvFileExamples
 
-  context 'for a transactions that overlap' do
-    describe '#call' do
-      it 'does not duplicate transactions' do
-        #TODO: Remove the complexity here.  Just add the same transactions
-        #twice.  Create another test for adding a file with one transaction and
-        #another with two of the same.
+  context "for a transactions that overlap" do
+    describe "#call" do
+      it "does not duplicate transactions" do
+        # TODO: Remove the complexity here.  Just add the same transactions
+        # twice.  Create another test for adding a file with one transaction and
+        # another with two of the same.
         transactions_hash = create_transactions_hash()
 
         file1_transaction1 = transactions_hash[:file1_transaction1]
@@ -34,10 +34,10 @@ describe TransactionImport::TransactionDataImporter do
 
           mismatch_found = false
           actual_transactions.each_with_index do |actual, index|
-           expected = expected_transactions[index]
-           mismatch_found = actual.description != expected.description ||
-            actual.transaction_date != expected.transaction_date ||
-            actual.amount_cents != expected.amount_cents
+            expected = expected_transactions[index]
+            mismatch_found = actual.description != expected.description ||
+              actual.transaction_date != expected.transaction_date ||
+              actual.amount_cents != expected.amount_cents
           end
           return !mismatch_found
         end
@@ -55,7 +55,7 @@ describe TransactionImport::TransactionDataImporter do
         target.transaction_date = source.transaction_date
       end
 
-      def create_transactions_hash()
+      def create_transactions_hash
         transactions_hash = {}
         user = create :user
         transactions_hash[:account] = create :account, user: user, import_configuration_options: include_headers_options

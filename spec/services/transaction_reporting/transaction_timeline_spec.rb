@@ -1,10 +1,9 @@
 module TransactionReporting
   describe TransactionTimeline do
-    context '#call' do
-      context 'transactions' do
-
-        context 'when a transaction is between the start date and end date' do
-          it 'is included in the timeline' do
+    context "#call" do
+      context "transactions" do
+        context "when a transaction is between the start date and end date" do
+          it "is included in the timeline" do
             transaction = create :transaction, transaction_date: Date.today
 
             report = one_month_window_timeline(transaction.account)
@@ -13,8 +12,8 @@ module TransactionReporting
             expect(transaction_timeline_items).to match_timelines_to_transactions([transaction])
           end
         end
-        context 'when a transaction is before the start date' do
-          it 'is not included in the timeline' do
+        context "when a transaction is before the start date" do
+          it "is not included in the timeline" do
             transaction = create :transaction, transaction_date: 1.month.ago - 1.day
 
             report = one_month_window_timeline(transaction.account)
@@ -23,8 +22,8 @@ module TransactionReporting
             expect(transaction_timeline_items).to match_timelines_to_transactions([transaction])
           end
         end
-        context 'when a transaction is after the end date' do
-          it 'is not included in the timeline' do
+        context "when a transaction is after the end date" do
+          it "is not included in the timeline" do
             transaction = create :transaction, transaction_date: Date.today + 1.month - 1.day
 
             report = one_month_window_timeline(transaction.account)
@@ -35,9 +34,9 @@ module TransactionReporting
         end
       end
 
-      context 'budgeted line items' do
-        context 'when it is overdue' do
-          it 'returns a transaction date of today' do
+      context "budgeted line items" do
+        context "when it is overdue" do
+          it "returns a transaction date of today" do
             account = create_transaction_and_budget() do |transaction, budget|
               transaction.transaction_date = Date.today - 2.months
               budget.recurrence = :monthly
@@ -50,7 +49,7 @@ module TransactionReporting
             expect(timelines[0].transaction_date).to eq(Date.today)
           end
 
-          it 'returns multiple timeline items for a budgeted line item that repeats itself before the end date' do
+          it "returns multiple timeline items for a budgeted line item that repeats itself before the end date" do
             account = create_transaction_and_budget() do |transaction, budget|
               transaction.transaction_date = Date.today - 1.months - 1.day
               budget.recurrence = :monthly
@@ -65,8 +64,8 @@ module TransactionReporting
           end
         end
 
-        context 'when it is not overdue' do
-          it 'returns the expected timeline item date' do
+        context "when it is not overdue" do
+          it "returns the expected timeline item date" do
             account = create_transaction_and_budget() do |transaction, budget|
               transaction.transaction_date = Date.today - 2.weeks
               budget.recurrence = :monthly
@@ -81,8 +80,8 @@ module TransactionReporting
           end
         end
 
-        context 'when it is expected after the end date' do
-          it 'should not be included' do
+        context "when it is expected after the end date" do
+          it "should not be included" do
             account = create_transaction_and_budget() do |transaction, budget|
               transaction.transaction_date = Date.today + 2.weeks
               budget.recurrence = :monthly
@@ -95,9 +94,7 @@ module TransactionReporting
             expect(timelines.count).to eq(1)
           end
         end
-
       end
-
     end
 
     RSpec::Matchers.define :match_timelines_to_transactions do |expected_transactions|
@@ -122,7 +119,7 @@ module TransactionReporting
       TransactionTimeline.new(account, start_date, end_date)
     end
 
-    def create_transaction_and_budget()
+    def create_transaction_and_budget
       transaction = create :transaction
       budgeted_line_item = create :budgeted_line_item,
         description: transaction.description,
