@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 feature "Delete a budgeted line item" do
   scenario "with valid parameters" do
@@ -10,7 +10,7 @@ feature "Delete a budgeted line item" do
     visit account_budgeted_line_items_path(account)
 
     tr = find_by_data_id(budgeted_line_item.id)
-    tr.find('.delete-button').click
+    tr.find(".delete-button").click
 
     expect(page).not_to have_content(budgeted_line_item_name)
   end

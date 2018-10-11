@@ -1,5 +1,4 @@
 class BudgetedLineItem < ApplicationRecord
-
   validates :description, presence: true
 
   monetize :amount_cents
@@ -18,16 +17,16 @@ class BudgetedLineItem < ApplicationRecord
   validates :start_date, presence: true
 
   self.per_page = 50
-  scope :search, -> (term) { where('description LIKE ?', "%#{term}%")}
+  scope :search, -> (term) { where("description LIKE ?", "%#{term}%") }
 
   def recurrence_text
-    if(no_recurrence?)
+    if no_recurrence?
       "one time"
-    elsif(weekly?)
+    elsif weekly?
       get_recurrence_string("week")
-    elsif(monthly?)
+    elsif monthly?
       get_recurrence_string("month")
-    elsif(yearly?)
+    elsif yearly?
       get_recurrence_string("year")
     end
   end
@@ -37,13 +36,13 @@ class BudgetedLineItem < ApplicationRecord
   end
 
   def next_date(current_date)
-    if(no_recurrence?)
+    if no_recurrence?
       nil
-    elsif(weekly?)
+    elsif weekly?
       current_date + (7 * recurrence_multiplier).days
-    elsif(monthly?)
+    elsif monthly?
       current_date + recurrence_multiplier.months
-    elsif(yearly?)
+    elsif yearly?
       current_date + recurrence_multiplier.years
     end
   end

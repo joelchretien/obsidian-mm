@@ -1,6 +1,5 @@
 module TransactionImport
   class TransactionDataImporter
-
     attr_accessor :transactions
     attr_accessor :account
 
@@ -9,12 +8,12 @@ module TransactionImport
       @transactions = transactions
     end
 
-    def call()
+    def call
       existing_last_day_transactions = @account.transactions_for_last_day
       last_day = get_last_day(existing_last_day_transactions)
 
       newer_transactions = @transactions.select { |transaction| transaction.transaction_date > last_day }
-      new_last_day_transactions = @transactions.select { |transaction| transaction.transaction_date ==last_day }
+      new_last_day_transactions = @transactions.select { |transaction| transaction.transaction_date == last_day }
       remove_duplicates(new_last_day_transactions, existing_last_day_transactions)
 
       Transaction.import(new_last_day_transactions + newer_transactions)
@@ -23,7 +22,7 @@ module TransactionImport
     private
 
     def get_last_day(existing_last_day_transactions)
-      if(existing_last_day_transactions.empty?)
+      if existing_last_day_transactions.empty?
         Time.at(0).to_date
       else
         existing_last_day_transactions.first.transaction_date

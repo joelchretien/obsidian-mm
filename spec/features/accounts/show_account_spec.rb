@@ -1,5 +1,5 @@
-feature 'show account dashboard' do
-  scenario 'account dashboard shows current transactions' do
+feature "show account dashboard" do
+  scenario "account dashboard shows current transactions" do
     user = create :user
     login_as user
     account = create :account, user: user

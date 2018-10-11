@@ -1,6 +1,5 @@
 module TransactionImport
   class TransactionImporter
-
     attr_accessor :account
     attr_accessor :transactions
 
@@ -8,7 +7,5 @@ module TransactionImport
       @account = account
       @transactions = transactions
     end
-
-
   end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 feature "Delete an account" do
   scenario "with valid parameters" do
@@ -10,7 +10,7 @@ feature "Delete an account" do
     visit accounts_path
 
     tr = find_by_data_id(account.id)
-    tr.find('.delete-button').click
+    tr.find(".delete-button").click
 
     expect(tr).not_to have_content(account_name)
   end

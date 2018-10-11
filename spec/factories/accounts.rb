@@ -1,4 +1,4 @@
-require 'json'
+require "json"
 FactoryBot.define do
   factory :account do
     user

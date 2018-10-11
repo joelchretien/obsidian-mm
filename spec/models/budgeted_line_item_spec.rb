@@ -1,19 +1,19 @@
 describe BudgetedLineItem do
   describe "#description" do
-    it { is_expected.to validate_presence_of(:description)}
+    it { is_expected.to validate_presence_of(:description) }
   end
 
   describe "#amount_cents" do
     it { is_expected.to monetize(:amount_cents) }
-    it { is_expected.to validate_presence_of(:amount_cents)}
+    it { is_expected.to validate_presence_of(:amount_cents) }
   end
 
   describe "#recurrence" do
-    it { is_expected.to define_enum_for(:recurrence).with([:no_recurrence, :weekly, :monthly, :yearly] ) }
+    it { is_expected.to define_enum_for(:recurrence).with([:no_recurrence, :weekly, :monthly, :yearly]) }
   end
 
   describe "#recurrence_multiplier" do
-    it { is_expected.to validate_presence_of(:recurrence_multiplier)}
+    it { is_expected.to validate_presence_of(:recurrence_multiplier) }
   end
 
   describe "#account" do
@@ -22,11 +22,11 @@ describe BudgetedLineItem do
   end
 
   describe "#trasnactions" do
-    it { is_expected.to have_many(:transactions).dependent(:nullify)}
+    it { is_expected.to have_many(:transactions).dependent(:nullify) }
   end
 
   describe "#start_date" do
-    it { is_expected.to validate_presence_of(:start_date)}
+    it { is_expected.to validate_presence_of(:start_date) }
   end
 
   describe "#recurrence_text" do
@@ -84,8 +84,8 @@ describe BudgetedLineItem do
       end
     end
 
-    describe '#matches' do
-      it 'matches if the descriptions are equal' do
+    describe "#matches" do
+      it "matches if the descriptions are equal" do
         transaction = create :transaction
         budgeted_line_item = create :budgeted_line_item, description: transaction.description
 
@@ -93,7 +93,7 @@ describe BudgetedLineItem do
 
         expect(result).to eq(true)
       end
-      it 'does not match if the descriptions are equal' do
+      it "does not match if the descriptions are equal" do
         transaction = create :transaction
         budgeted_line_item = create :budgeted_line_item
 
@@ -103,20 +103,20 @@ describe BudgetedLineItem do
       end
     end
 
-    describe '#next_date' do
-      it 'returns the next month when monthly' do
+    describe "#next_date" do
+      it "returns the next month when monthly" do
         budgeted_line_item = create :budgeted_line_item, recurrence: :monthly, recurrence_multiplier: 1, start_date: Date.today
         expect(budgeted_line_item.next_date(Date.today)).to eq(Date.today + 1.month)
       end
-      it 'returns the next year when yearly' do
+      it "returns the next year when yearly" do
         budgeted_line_item = create :budgeted_line_item, recurrence: :yearly, recurrence_multiplier: 1, start_date: Date.today
         expect(budgeted_line_item.next_date(Date.today)).to eq(Date.today + 1.year)
       end
-      it 'returns the next week when weekly' do
+      it "returns the next week when weekly" do
         budgeted_line_item = create :budgeted_line_item, recurrence: :weekly, recurrence_multiplier: 1, start_date: Date.today
         expect(budgeted_line_item.next_date(Date.today)).to eq(Date.today + 7.days)
       end
-      it 'returns the nil when one time' do
+      it "returns the nil when one time" do
         budgeted_line_item = create :budgeted_line_item, recurrence: :no_recurrence, recurrence_multiplier: 1, start_date: Date.today
         expect(budgeted_line_item.next_date(Date.today)).to be_nil
       end

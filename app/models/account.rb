@@ -8,9 +8,9 @@ class Account < ApplicationRecord
   validates :name, presence: true
   validates :import_configuration_options, presence: true
 
-  def transactions_for_last_day()
-    last_transaction = transactions.order('transaction_date DESC').first
-    if(last_transaction.nil?)
+  def transactions_for_last_day
+    last_transaction = transactions.order("transaction_date DESC").first
+    if last_transaction.nil?
       []
     else
       last_day_transactions = transactions.where(transaction_date: last_transaction.transaction_date)

@@ -1,6 +1,6 @@
 Devise.setup do |config|
-  config.mailer_sender = 'example@example.com'
-  require 'devise/orm/active_record'
+  config.mailer_sender = "example@example.com"
+  require "devise/orm/active_record"
   config.case_insensitive_keys = [:email]
   config.strip_whitespace_keys = [:email]
   config.skip_session_storage = [:http_auth]
@@ -11,5 +11,5 @@ Devise.setup do |config|
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
   config.reset_password_within = 6.hours
   config.sign_out_via = :delete
-  config.secret_key = ENV['BUDGET_TRACKING_DEVISE_SECRET_KEY']
+  config.secret_key = ENV["BUDGET_TRACKING_DEVISE_SECRET_KEY"]
 end

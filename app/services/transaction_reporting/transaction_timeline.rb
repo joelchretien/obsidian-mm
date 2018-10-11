@@ -1,6 +1,5 @@
 module TransactionReporting
   class TransactionTimeline
-
     attr_reader :account, :start_date, :end_date
 
     def initialize(account, start_date, end_date)
@@ -9,7 +8,7 @@ module TransactionReporting
       @end_date = end_date
     end
 
-    def call()
+    def call
       transactions = Transaction.between_dates(@start_date, @end_date)
       past_timelines = transactions.collect { |t| transaction_to_timeline(t) }
       future_timelines = budgeted_line_item_timelines()
@@ -23,7 +22,7 @@ module TransactionReporting
       TransactionTimelineItem.new(transaction.description, transaction.amount_cents, transaction.transaction_date, nil)
     end
 
-    def budgeted_line_item_timelines()
+    def budgeted_line_item_timelines
       timelines = []
       latest_transactions_service = LatestTransactionsByDescriptions.new(account)
       latest_transactions = latest_transactions_service.call()

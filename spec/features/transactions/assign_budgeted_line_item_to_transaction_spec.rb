@@ -1,5 +1,5 @@
-feature 'assign budgeted line item to transaction' do
-  scenario 'when transaction is unassigned', js: true do
+feature "assign budgeted line item to transaction" do
+  scenario "when transaction is unassigned", js: true do
     transaction_name = "targetTransaction"
     target_budgeted_line_item = "targetBudget"
     current_user = create_current_user_with_transactions_and_budgets()
@@ -14,19 +14,19 @@ feature 'assign budgeted line item to transaction' do
 
     tr = find_by_data_id(target_transaction.id)
     expect(tr).not_to have_content(target_budgeted_line_item)
-    tr.find('.assign-budget').click
+    tr.find(".assign-budget").click
     select target_budgeted_line_item, from: "transaction_budgeted_line_item_id"
-    find('.edit_transaction').find('input[type="submit"]').click
+    find(".edit_transaction").find("input[type='submit']").click
 
     expect(tr).to have_content(target_budgeted_line_item)
   end
 
-  def create_current_user_with_transactions_and_budgets()
+  def create_current_user_with_transactions_and_budgets
     user = create :user
     account = create :account, user: user
     imported_file = create :imported_file, account: account
     create_list(:transaction, 3, account: account, imported_file: imported_file)
-    create_list(:budgeted_line_item, 3, account: account) 
+    create_list(:budgeted_line_item, 3, account: account)
     user
   end
 end
