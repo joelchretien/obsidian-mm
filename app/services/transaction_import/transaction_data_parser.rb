@@ -2,18 +2,16 @@ require "csv"
 
 module TransactionImport
   class TransactionDataParser
-    attr_accessor :account
     attr_accessor :imported_file
     attr_accessor :options
 
-    def initialize(account, imported_file)
-      @account = account
+    def initialize(imported_file)
       @imported_file = imported_file
-      import_options = account.import_configuration_options
+      import_options = imported_file.account.import_configuration_options
       @options = import_options.reverse_merge(default_options)
     end
 
-    def call
+    def call(last_balance: nil)
       csv_options = {
         headers: true,
         header_converters: lambda { |f| f.strip },
@@ -21,9 +19,11 @@ module TransactionImport
       }
       transactions = []
       CSV.parse(@imported_file.source_file.download, csv_options) do |row|
-        transactions << create_transaction_from_row(row)
+        transaction = create_transaction_from_row(row)
+        transaction.imported_file = @imported_file
+        transactions << transaction
       end
-      transaction_importer = TransactionDataImporter.new(@account, transactions)
+      transaction_importer = TransactionDataImporter.new(imported_file.account, transactions)
       transaction_importer.call()
     end
 
@@ -42,7 +42,7 @@ module TransactionImport
       end
 
       transaction = Transaction.new()
-      transaction.account = @account
+      transaction.account = imported_file.account
       transaction.imported_file = @imported_file
       transaction.description = description_column
       transaction.transaction_date = date_column

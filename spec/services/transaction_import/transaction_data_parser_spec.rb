@@ -8,7 +8,8 @@ describe TransactionImport::TransactionDataParser do
         imported_file = ImportedFile.new()
         imported_file.account = account
         imported_file.source_file.attach(io: File.open(Rails.root + "spec/support/transaction_csv_with_header_and_non_iso_dates.csv"), filename: "attachment.csv", content_type: "text/csv")
-        transaction_import = TransactionImport::TransactionDataParser.new(account, imported_file)
+        imported_file.save!
+        transaction_import = TransactionImport::TransactionDataParser.new(imported_file)
         transaction_import.call()
 
         first_transaction = account.transactions[0]

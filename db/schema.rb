@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_19_235727) do
+ActiveRecord::Schema.define(version: 2018_10_15_024132) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2018_08_19_235727) do
     t.datetime "updated_at", null: false
     t.bigint "budgeted_line_item_id"
     t.bigint "account_id"
-    t.bigint "imported_file_id"
+    t.bigint "imported_file_id", null: false
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["budgeted_line_item_id"], name: "index_transactions_on_budgeted_line_item_id"
     t.index ["imported_file_id"], name: "index_transactions_on_imported_file_id"

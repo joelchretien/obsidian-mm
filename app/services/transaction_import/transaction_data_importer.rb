@@ -1,7 +1,6 @@
 module TransactionImport
   class TransactionDataImporter
-    attr_accessor :transactions
-    attr_accessor :account
+    attr_accessor :transactions, :account
 
     def initialize(account, transactions)
       @account = account
@@ -15,8 +14,8 @@ module TransactionImport
       newer_transactions = @transactions.select { |transaction| transaction.transaction_date > last_day }
       new_last_day_transactions = @transactions.select { |transaction| transaction.transaction_date == last_day }
       remove_duplicates(new_last_day_transactions, existing_last_day_transactions)
-
-      Transaction.import(new_last_day_transactions + newer_transactions)
+      all_transactions = new_last_day_transactions + newer_transactions
+      Transaction.import(all_transactions)
     end
 
     private

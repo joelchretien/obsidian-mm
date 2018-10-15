@@ -62,6 +62,7 @@ describe TransactionImport::TransactionDataImporter do
         account = transactions_hash[:account]
         imported_file1 = ImportedFile.new()
         imported_file1.account = account
+        imported_file1.save!
 
         file1_transactions = []
         transactions_hash[:file1_transaction1] = create_transaction(file1_transactions, account, imported_file1)
@@ -71,6 +72,7 @@ describe TransactionImport::TransactionDataImporter do
 
         imported_file2 = ImportedFile.new()
         imported_file2.account = account
+        imported_file2.save!
 
         file2_transactions = []
         transactions_hash[:file2_transaction1] = create_transaction(file2_transactions, account, imported_file2)
