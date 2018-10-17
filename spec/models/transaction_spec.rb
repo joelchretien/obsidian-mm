@@ -8,6 +8,10 @@ describe Transaction do
     it { is_expected.to belong_to(:budgeted_line_item) }
   end
 
+  context "#user_entered_balance" do
+    it { is_expected.to have_one(:user_entered_balance) }
+  end
+
   context "#description" do
     it { is_expected.to validate_presence_of(:description) }
   end
@@ -24,6 +28,11 @@ describe Transaction do
   context "#imported_file" do
     it { is_expected.to belong_to :imported_file }
     it { is_expected.to validate_presence_of :imported_file }
+  end
+
+  context "#balance_cents" do
+    it { is_expected.to monetize(:balance_cents) }
+    it { is_expected.to validate_presence_of(:balance_cents) }
   end
 
   context "#between_dates" do

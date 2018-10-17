@@ -21,7 +21,7 @@ describe BudgetedLineItem do
     it { is_expected.to validate_presence_of(:account) }
   end
 
-  describe "#trasnactions" do
+  describe "#transactions" do
     it { is_expected.to have_many(:transactions).dependent(:nullify) }
   end
 

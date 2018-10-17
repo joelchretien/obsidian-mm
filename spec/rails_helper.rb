@@ -18,6 +18,11 @@ Dir[File.expand_path(File.join(File.dirname(__FILE__), "support", "**", "*.rb"))
 
 Capybara.javascript_driver = :webkit
 
+Capybara::Webkit.configure do |config|
+  config.allow_url("fonts.gstatic.com")
+  config.allow_url("fonts.googleapis.com")
+end
+
 RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   # Remove this line if you"re not using ActiveRecord or ActiveRecord fixtures
