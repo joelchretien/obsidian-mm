@@ -10,9 +10,8 @@ class ImportFileRequestsController < ApplicationController
 
   def create
     @account = Account.find(params[:account_id])
-    @import_file_request = ImportFileRequest.new()
+    @import_file_request = ImportFileRequest.new(import_file_request_params)
     @import_file_request.account = @account
-    @import_file_request.attributes = import_file_request_params
     @import_file_request.register
     respond_modal_with @imported_file, location: account_transactions_path(@import_file_request.account)
   end

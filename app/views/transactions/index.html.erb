@@ -11,6 +11,7 @@
           <th style="min-width:120px">Date</th>
           <th style="min-width:240px">Description</th>
           <th>Amount</th>
+          <th>Balance</th>
           <th>Budget Assignment</th>
         </tr>
       </thead>
@@ -20,6 +21,7 @@
             <td><%= transaction.transaction_date %></td>
             <td><%= transaction.description %></td>
             <td><%= number_to_currency(transaction.amount) %></td>
+            <td><%= number_to_currency(transaction.balance) %></td>
             <td>
               <% if transaction.budgeted_line_item.nil? %>
                 <span class="not-assigned-text">Not assigned</span>

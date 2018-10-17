@@ -4,7 +4,7 @@ class ImportFileRequest
   attr_accessor :account, :source_file, :last_balance
   validates :account, presence: true
   validates :source_file, presence: true
-  validates :last_balance, presence: true, if: :last_balance_required?
+  validates :last_balance, numericality: true, presence: true, if: :last_balance_required?
 
 
   def last_balance_required?
@@ -22,7 +22,7 @@ class ImportFileRequest
     imported_file.account = @account
     imported_file.save!
     transaction_import = TransactionImport::TransactionDataParser.new(imported_file)
-    transaction_import.call(last_balance: @last_balance)
+    transaction_import.call(last_balance: @last_balance.to_f)
   end
 
   private

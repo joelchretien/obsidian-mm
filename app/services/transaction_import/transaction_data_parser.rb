@@ -23,7 +23,11 @@ module TransactionImport
         transaction.imported_file = @imported_file
         transactions << transaction
       end
-      transaction_importer = TransactionDataImporter.new(imported_file.account, transactions)
+      transaction_importer = TransactionDataImporter.new(
+        imported_file.account,
+        transactions,
+        last_balance: last_balance
+      )
       transaction_importer.call()
     end
 
@@ -46,7 +50,7 @@ module TransactionImport
       transaction.imported_file = @imported_file
       transaction.description = description_column
       transaction.transaction_date = date_column
-      transaction.amount_cents = amount_column
+      transaction.amount = amount_column
       transaction
     end
 
