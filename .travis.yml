@@ -1,4 +1,5 @@
 env:
+  SECRET_KEY_BASE="$(bundle exec rake secret)"
   global:
     - CC_TEST_REPORTER_ID=b13fb00426c826d21ca622b12779dc048d81af36accba45a9f39f1f833bdf58e
   language: ruby
