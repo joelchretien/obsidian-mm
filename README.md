@@ -1,3 +1,6 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/e1e6fce8e810198a0c3d/maintainability)](https://codeclimate.com/github/joelchretien/obsidian-mm/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/e1e6fce8e810198a0c3d/test_coverage)](https://codeclimate.com/github/joelchretien/obsidian-mm/test_coverage)
+
 # README
 
 This README would normally document whatever steps are necessary to get the
