@@ -1,0 +1,15 @@
+<div>
+  <% @transaction_timeline.each do |timeline_item| %>
+    <div class="timeline-item">
+      <div class="description">
+        <%= timeline_item.description %>
+      </div>
+      <div class="transaction_date">
+        <%= timeline_item.transaction_date %>
+      </div>
+      <div class="amount">
+        <%= timeline_item.amount_cents %>
+      </div>
+    </div>
+  <% end %>
+</div>

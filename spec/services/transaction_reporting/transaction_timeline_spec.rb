@@ -118,17 +118,5 @@ module TransactionReporting
       end_date = Date.today + 1.month
       TransactionTimeline.new(account, start_date, end_date)
     end
-
-    def create_transaction_and_budget
-      transaction = create :transaction
-      budgeted_line_item = create :budgeted_line_item,
-        description: transaction.description,
-        account: transaction.account,
-        start_date: 5.years.ago
-      yield(transaction, budgeted_line_item)
-      budgeted_line_item.save!
-      transaction.save!
-      transaction.account
-    end
   end
 end
