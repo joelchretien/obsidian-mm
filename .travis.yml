@@ -15,7 +15,7 @@ before_script:
   - ./cc-test-reporter before-build
 scripts:
   - bin/rails db:migrate RAILS_ENV=test
-  - bundle exec rspec spec
+  - xvfb-run bundle exec rspec spec
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 services:
