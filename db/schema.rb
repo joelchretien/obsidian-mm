@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2018_10_20_031448) do
 
-  create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "accounts", force: :cascade do |t|
     t.bigint "user_id"
     t.text "name"
     t.datetime "created_at", null: false
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_031448) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
-  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_031448) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "active_storage_blobs", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_031448) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "budgeted_line_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "budgeted_line_items", force: :cascade do |t|
     t.text "description"
     t.integer "amount_cents"
     t.integer "recurrence"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_031448) do
     t.index ["account_id"], name: "index_budgeted_line_items_on_account_id"
   end
 
-  create_table "imported_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "imported_files", force: :cascade do |t|
     t.bigint "account_id"
     t.text "filename"
     t.datetime "created_at", null: false
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_031448) do
     t.index ["account_id"], name: "index_imported_files_on_account_id"
   end
 
-  create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "transactions", force: :cascade do |t|
     t.string "description"
     t.integer "amount_cents"
     t.date "transaction_date"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_031448) do
     t.index ["imported_file_id"], name: "index_transactions_on_imported_file_id"
   end
 
-  create_table "user_entered_balances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "user_entered_balances", force: :cascade do |t|
     t.bigint "account_id"
     t.bigint "transaction_id"
     t.integer "balance_cents"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_031448) do
     t.index ["transaction_id"], name: "index_user_entered_balances_on_transaction_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
