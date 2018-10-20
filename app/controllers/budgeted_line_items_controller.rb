@@ -43,6 +43,6 @@ class BudgetedLineItemsController < ApplicationController
   private
 
   def budgeted_line_item_params
-    params.require(:budgeted_line_item).permit(:description, :amount, :recurrence, :recurrence_multiplier, :start_date)
+    params.require(:budgeted_line_item).permit(:description, :amount, :recurrence, :recurrence_multiplier, :start_date, :transaction_descriptions)
   end
 end

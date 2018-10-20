@@ -19,6 +19,7 @@ module TransactionImport
       remove_duplicates(new_last_day_transactions, existing_last_day_transactions)
       all_transactions = new_last_day_transactions + newer_transactions
       set_transaction_balances(all_transactions)
+      assign_budgeted_line_items(all_transactions)
       all_transactions.each do |transaction|
         if !transaction.valid?
           raise "One or more transactions are invalid"
@@ -29,6 +30,15 @@ module TransactionImport
     end
 
     private
+
+    def assign_budgeted_line_items(transactions)
+      transactions.each do |transaction|
+        matching_items = @account.budgeted_line_items.find_all { |item| item.transaction_descriptions == transaction.description }
+        if !matching_items.empty?
+          transaction.budgeted_line_item = matching_items.first
+        end
+      end
+    end
 
     def set_transaction_balances(transactions)
       last_transaction = @account.last_transaction

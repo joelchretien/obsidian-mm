@@ -5,9 +5,11 @@ feature "create a new budgeted line item" do
     account = create :account, user: user
     visit account_budgeted_line_items_path(account)
     budgeted_line_item_name = "item-name"
+    transaction_descriptions = "transaction-name"
 
     find("a", text: /New Item?/i).click
     fill_in "budgeted_line_item_description", with: budgeted_line_item_name
+    fill_in "budgeted_line_item_transaction_descriptions", with: transaction_descriptions
     fill_in "budgeted_line_item_amount", with: 10
     select "Monthly", from: "budgeted_line_item_recurrence"
 
@@ -17,5 +19,6 @@ feature "create a new budgeted line item" do
     click_button("Save")
 
     expect(page).to have_content(budgeted_line_item_name)
+    expect(page).to have_content(transaction_descriptions)
   end
 end

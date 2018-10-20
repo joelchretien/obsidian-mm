@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_16_003430) do
+ActiveRecord::Schema.define(version: 2018_10_20_031448) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2018_10_16_003430) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "account_id"
+    t.text "transaction_descriptions"
     t.index ["account_id"], name: "index_budgeted_line_items_on_account_id"
   end
 
