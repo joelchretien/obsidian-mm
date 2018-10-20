@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     resources :transactions, only: [:index, :edit, :update]
     resources :budgeted_line_items
     resources :import_file_requests, only: [:new, :create]
+    resources :dashboard, only: [:index]
   end
 end
