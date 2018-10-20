@@ -19,15 +19,23 @@ module TransactionReporting
     private
 
     def transaction_to_timeline(transaction)
-      TransactionTimelineItem.new(transaction.description, transaction.amount_cents, transaction.transaction_date, nil)
+      TransactionTimelineItem.new(
+        transaction.description,
+        transaction.amount_cents,
+        transaction.transaction_date,
+        nil,
+        transaction.balance
+      )
     end
 
     def budgeted_line_item_timelines
       timelines = []
       latest_transactions_service = LatestTransactionsByDescriptions.new(account)
       latest_transactions = latest_transactions_service.call()
-
+      last_transaction = account.last_transaction
+      balance = last_transaction.balance_cents
       account.budgeted_line_items.each do |budgeted_line_item|
+        balance = balance + budgeted_line_item.amount_cents
         latest_matching_transaction = latest_transactions.first { |transaction| budgeted_line_item.matches_transaction(transaction) }
         current_date = latest_matching_transaction.nil? ? budgeted_line_item.start_date : latest_matching_transaction.transaction_date
         past_end_of_report = false
@@ -39,7 +47,9 @@ module TransactionReporting
               budgeted_line_item.description,
               budgeted_line_item.amount_cents,
               transaction_date,
-              next_date)
+              next_date,
+              balance
+            )
             timelines << timeline
             current_date = next_date
           else

@@ -94,6 +94,25 @@ module TransactionReporting
             expect(timelines.count).to eq(1)
           end
         end
+
+        context "when calculating the balance for budgeted line items" do
+          it "adds the budgeted line item to the last transactions" do
+            account = create_transaction_and_budget() do |transaction, budget|
+              transaction.transaction_date = Date.today - 2.weeks
+              budget.recurrence = :monthly
+              budget.recurrence_multiplier = 1
+            end
+
+            report = one_month_window_timeline(account)
+            timelines = report.call
+
+            transaction = account.transactions.first
+            budgeted_line_item = account.budgeted_line_items.first
+            new_balance = transaction.balance_cents + budgeted_line_item.amount_cents
+
+            expect(timelines.last.balance_cents).to eq(new_balance)
+          end
+        end
       end
     end
 
