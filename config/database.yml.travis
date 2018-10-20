@@ -1,0 +1,10 @@
+test:
+  host: localhost
+  adapter: postgresql
+  encoding: utf8
+  pool: 5
+  reconnect: true
+  username: postgres
+  password:
+  database: travis_ci_test
+
