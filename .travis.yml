@@ -1,38 +1,17 @@
 sudo: required
-env:
+services:
+  - docker
+addons:
   global:
-    - BUNDLE_JOBS=4
-    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-    - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
-    - JAVA_OPTS=-Djava.security.egd=file:/dev/urandom
-  addons:
-    global:
-      - CC_TEST_REPORTER_ID=b13fb00426c826d21ca622b12779dc048d81af36accba45a9f39f1f833bdf58e
-    language: ruby
-    rvm:
-      - 2.5.1
-    before_install: 
-      - gem install bundler
-    before_script:
-      - psql -c 'create database travis_ci_test;' -U postgres
-      - cp config/database.yml.travis config/database.yml
-      - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-      - chmod +x ./cc-test-reporter
-      - ./cc-test-reporter before-build
-    scripts:
-      - bin/rails db:migrate RAILS_ENV=test
-      - xvfb-run bundle exec rspec spec
-    after_script:
-      - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-    services:
-      - postgresql
-    addons:
-      apt:
-        sources:
-          - ubuntu-sdk-team
-        packages:
-          - qt5-default 
-          - libqt5webkit5-dev 
-          - gstreamer1.0-plugins-base 
-          - gstreamer1.0-tools 
-          - gstreamer1.0-x
+    - CC_TEST_REPORTER_ID=b13fb00426c826d21ca622b12779dc048d81af36accba45a9f39f1f833bdf58e
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - docker-compose build
+  - docker-compose run app 
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
