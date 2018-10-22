@@ -5,13 +5,9 @@ addons:
   global:
     - CC_TEST_REPORTER_ID=b13fb00426c826d21ca622b12779dc048d81af36accba45a9f39f1f833bdf58e
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-  - cp config/database.yml.travis config/database.yml
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  - docker-compose run app ./beforeScript.sh
 script:
   - docker-compose build
-  - docker-compose run app 
+  - docker-compose run app ./runTests.sh
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - docker-compose run app ./afterScript.sh
