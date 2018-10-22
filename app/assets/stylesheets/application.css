@@ -3,3 +3,13 @@
  *= require_self
  *= require main
 */
+
+.navbar-brand-image
+{
+  height: 40px;
+}
+
+.navbar-obs
+{
+  background-color: #eceeec;
+}
