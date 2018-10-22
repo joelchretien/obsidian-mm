@@ -5,7 +5,7 @@ services:
     ports:
       - "54322:5432"
     environment: 
-      -  POSTGRES_PASSWORD=Abigail10
+      -  POSTGRES_PASSWORD=
     volumes:
       - /usr/volumes/pgdata/etc:/etc/postgresql:Z
       - /usr/volumes/dev/volumes/pgdata/log:/var/log/postgresql:Z
