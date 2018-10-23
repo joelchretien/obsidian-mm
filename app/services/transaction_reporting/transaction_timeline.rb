@@ -45,11 +45,7 @@ module TransactionReporting
 
     def get_timeline_for_budgeted_line_item(budgeted_line_item, latest_matching_transaction)
       timelines = []
-      if latest_matching_transaction.nil?
-        current_date = budgeted_line_item.start_date
-      else
-        current_date = latest_matching_transaction.transaction_date
-      end
+      current_date = get_start_date(budgeted_line_item, latest_matching_transaction)
       past_end_of_report = false
       while !past_end_of_report do
         next_date = budgeted_line_item.next_date(current_date)
@@ -67,6 +63,15 @@ module TransactionReporting
         end
       end
       timelines
+    end
+
+    def get_start_date(budgeted_line_item, past_transaction)
+      if past_transaction.nil?
+        current_date = budgeted_line_item.start_date
+      else
+        current_date = past_transaction.transaction_date
+      end
+      current_date
     end
   end
 end
