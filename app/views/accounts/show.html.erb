@@ -24,7 +24,7 @@
             <% @transaction_timeline.each do |transaction| %>
               <tr>
                 <td><%= transaction.description %></td>
-                <td><%= transaction.amount_cents %></td>
+                <td><%= transaction.amount %></td>
        <%#          <td><%= transaction.remaining_balance %></td>
               </tr>
             <%end%>

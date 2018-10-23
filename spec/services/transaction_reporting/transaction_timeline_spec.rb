@@ -109,9 +109,9 @@ module TransactionReporting
 
               transaction = account.transactions.first
               budgeted_line_item = account.budgeted_line_items.first
-              new_balance = transaction.balance_cents + budgeted_line_item.amount_cents
+              new_balance = transaction.balance + budgeted_line_item.amount
 
-              expect(timelines.last.balance_cents).to eq(new_balance)
+              expect(timelines.last.balance).to eq(new_balance)
             end
           end
         end
