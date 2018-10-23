@@ -49,13 +49,8 @@ module TransactionReporting
       past_end_of_report = false
       while !past_end_of_report do
         next_date = budgeted_line_item.next_date(current_date)
-        transaction_date = next_date < Date.today ? Date.today : next_date
         if next_date <= @end_date
-          timeline = TransactionTimelineItem.from_budgeted_line_item(
-            budgeted_line_item,
-            expected_date: next_date,
-            transaction_date: transaction_date
-          )
+          timeline = get_timeline_for_date(budgeted_line_item, next_date)
           timelines << timeline
           current_date = next_date
         else
@@ -63,6 +58,16 @@ module TransactionReporting
         end
       end
       timelines
+    end
+
+    def get_timeline_for_date(budgeted_line_item, next_date)
+      transaction_date = next_date < Date.today ? Date.today : next_date
+      timeline = TransactionTimelineItem.from_budgeted_line_item(
+        budgeted_line_item,
+        expected_date: next_date,
+        transaction_date: transaction_date
+      )
+      timeline
     end
 
     def get_start_date(budgeted_line_item, past_transaction)
