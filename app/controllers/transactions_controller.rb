@@ -1,4 +1,6 @@
 class TransactionsController < ApplicationController
+  respond_to :html, :json
+
   def index
     @account = current_user.accounts.find(params[:account_id])
     @transactions = @account.transactions.paginate(page: params[:page]).order("transaction_date DESC")
@@ -7,6 +9,7 @@ class TransactionsController < ApplicationController
   def edit
     @account = current_user.accounts.find(params[:account_id])
     @transaction = @account.transactions.find(params[:id])
+    respond_modal_with @transaction
   end
 
   def update

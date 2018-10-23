@@ -5,7 +5,7 @@ services:
     ports:
       - "54322:5432"
     environment: 
-      -  POSTGRES_PASSWORD=
+      -  POSTGRES_PASSWORD=pgpass
     volumes:
       - /usr/volumes/pgdata/etc:/etc/postgresql:Z
       - /usr/volumes/dev/volumes/pgdata/log:/var/log/postgresql:Z
@@ -16,7 +16,7 @@ services:
     environment:
       - BUNDLE_PATH=/bundle
     ports:
-      - 3000:3000
+      - 3001:3000
     links:
       - db
     volumes:
