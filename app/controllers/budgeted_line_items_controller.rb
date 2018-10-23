@@ -3,7 +3,7 @@ class BudgetedLineItemsController < ApplicationController
 
   def index
     @account = current_user.accounts.find(params[:account_id])
-    @budgeted_line_items = @account.budgeted_line_items.paginate(page: params[:page]).order("description")
+    @budgeted_line_items = @account.budgeted_line_items.alphabetical.paginate(page: params[:page]).order("description")
   end
 
   def new

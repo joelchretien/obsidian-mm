@@ -17,7 +17,7 @@ feature "Show Budgeted Line Items" do
   scenario "paginates budgeted line items" do
     current_user = create_current_user_with_budgeted_line_items()
     account = current_user.accounts.first
-    transactions = account.budgeted_line_items
+    transactions = account.budgeted_line_items.alphabetical
     allow(BudgetedLineItem).to receive(:per_page).and_return(2)
 
     login_as current_user, scope: :user

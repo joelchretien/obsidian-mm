@@ -18,6 +18,7 @@ class BudgetedLineItem < ApplicationRecord
 
   self.per_page = 50
   scope :search, -> (term) { where("description LIKE ?", "%#{term}%") }
+  scope :alphabetical, -> { order(:description) }
 
   def recurrence_text
     if no_recurrence?
