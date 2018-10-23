@@ -10,23 +10,13 @@ module TransactionReporting
 
     def call
       transactions = Transaction.between_dates(@start_date, @end_date)
-      past_timelines = transactions.collect { |t| transaction_to_timeline(t) }
+      past_timelines = transactions.collect { |t| TransactionTimelineItem.from_transaction(t) }
       future_timelines = budgeted_line_item_timelines()
 
       past_timelines + future_timelines
     end
 
     private
-
-    def transaction_to_timeline(transaction)
-      TransactionTimelineItem.new(
-        transaction.description,
-        transaction.amount,
-        transaction.transaction_date,
-        nil,
-        transaction.balance
-      )
-    end
 
     def budgeted_line_item_timelines
       upcoming_timelines = get_upcoming_timelines()
@@ -65,12 +55,10 @@ module TransactionReporting
         next_date = budgeted_line_item.next_date(current_date)
         transaction_date = next_date < Date.today ? Date.today : next_date
         if next_date <= @end_date
-          timeline = TransactionTimelineItem.new(
-            budgeted_line_item.description,
-            budgeted_line_item.amount,
-            transaction_date,
-            next_date,
-            0
+          timeline = TransactionTimelineItem.from_budgeted_line_item(
+            budgeted_line_item,
+            expected_date: next_date,
+            transaction_date: transaction_date
           )
           timelines << timeline
           current_date = next_date
