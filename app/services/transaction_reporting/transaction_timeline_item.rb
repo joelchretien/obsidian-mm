@@ -1,13 +1,14 @@
 module TransactionReporting
   class TransactionTimelineItem
-    attr_reader :description, :amount_cents, :transaction_date, :expected_date, :balance_cents
+    attr_reader :description, :amount, :transaction_date, :expected_date
+    attr_accessor :balance
 
-    def initialize(description, amount_cents, transaction_date, expected_date, balance_cents)
+    def initialize(description, amount, transaction_date, expected_date, balance)
       @description = description
-      @amount_cents = amount_cents
+      @amount = amount
       @transaction_date = transaction_date
       @expected_date = expected_date
-      @balance_cents = balance_cents
+      @balance = balance
     end
   end
 end

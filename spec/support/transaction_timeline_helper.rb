@@ -1,5 +1,7 @@
-def create_transaction_and_budget
-  account = create :account
+def create_transaction_and_budget(account: nil)
+  if account.nil?
+    account = create :account
+  end
   transaction = build :transaction, account: account
   budgeted_line_item = build :budgeted_line_item,
     description: transaction.description,

@@ -21,7 +21,7 @@ module TransactionReporting
     def transaction_to_timeline(transaction)
       TransactionTimelineItem.new(
         transaction.description,
-        transaction.amount_cents,
+        transaction.amount,
         transaction.transaction_date,
         nil,
         transaction.balance
@@ -29,36 +29,56 @@ module TransactionReporting
     end
 
     def budgeted_line_item_timelines
-      timelines = []
+      upcoming_timelines = get_upcoming_timelines()
+      set_expected_balances(upcoming_timelines)
+    end
+
+    def get_upcoming_timelines
+      upcoming_timelines = []
       latest_transactions_service = LatestTransactionsByDescriptions.new(account)
       latest_transactions = latest_transactions_service.call()
-      last_transaction = account.last_transaction
-      balance = last_transaction.balance_cents
       account.budgeted_line_items.each do |budgeted_line_item|
-        balance = balance + budgeted_line_item.amount_cents
-        latest_matching_transaction = latest_transactions.first { |transaction| budgeted_line_item.matches_transaction(transaction) }
-        current_date = latest_matching_transaction.nil? ? budgeted_line_item.start_date : latest_matching_transaction.transaction_date
-        past_end_of_report = false
-        while !past_end_of_report do
-          next_date = budgeted_line_item.next_date(current_date)
-          transaction_date = next_date < Date.today ? Date.today : next_date
-          if next_date <= @end_date
-            timeline = TransactionTimelineItem.new(
-              budgeted_line_item.description,
-              budgeted_line_item.amount_cents,
-              transaction_date,
-              next_date,
-              balance
-            )
-            timelines << timeline
-            current_date = next_date
-          else
-            past_end_of_report = true
-          end
+        latest_matching_transaction = latest_transactions.find { |transaction| budgeted_line_item.matches_transaction(transaction) }
+        timelines = get_timeline_for_budgeted_line_item(budgeted_line_item, latest_matching_transaction)
+        upcoming_timelines.push(*timelines)
+      end
+      upcoming_timelines.sort_by { |n| n.transaction_date }
+    end
+
+    def set_expected_balances(upcoming_timelines)
+      current_balance = account.last_transaction.balance
+      upcoming_timelines.each do |timeline|
+        current_balance += timeline.amount
+        timeline.balance = current_balance
+      end
+    end
+
+    def get_timeline_for_budgeted_line_item(budgeted_line_item, latest_matching_transaction)
+      timelines = []
+      if latest_matching_transaction.nil?
+        current_date = budgeted_line_item.start_date
+      else
+        current_date = latest_matching_transaction.transaction_date
+      end
+      past_end_of_report = false
+      while !past_end_of_report do
+        next_date = budgeted_line_item.next_date(current_date)
+        transaction_date = next_date < Date.today ? Date.today : next_date
+        if next_date <= @end_date
+          timeline = TransactionTimelineItem.new(
+            budgeted_line_item.description,
+            budgeted_line_item.amount,
+            transaction_date,
+            next_date,
+            0
+          )
+          timelines << timeline
+          current_date = next_date
+        else
+          past_end_of_report = true
         end
       end
-
-      timelines.sort_by { |n| n.transaction_date }
+      timelines
     end
   end
 end

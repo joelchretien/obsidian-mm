@@ -96,21 +96,64 @@ module TransactionReporting
         end
 
         context "when calculating the balance for budgeted line items" do
-          it "adds the budgeted line item to the last transactions" do
-            account = create_transaction_and_budget() do |transaction, budget|
-              transaction.transaction_date = Date.today - 2.weeks
-              budget.recurrence = :monthly
+          context "when it is a single budgeted line items" do
+            it "adds the budgeted line item to the last transactions" do
+              account = create_transaction_and_budget() do |transaction, budget|
+                transaction.transaction_date = Date.today - 2.weeks
+                budget.recurrence = :monthly
+                budget.recurrence_multiplier = 1
+              end
+
+              report = one_month_window_timeline(account)
+              timelines = report.call
+
+              transaction = account.transactions.first
+              budgeted_line_item = account.budgeted_line_items.first
+              new_balance = transaction.balance_cents + budgeted_line_item.amount_cents
+
+              expect(timelines.last.balance_cents).to eq(new_balance)
+            end
+          end
+        end
+
+        context "when it is multiple budgeted line items" do
+          it "shows the balances in chronological order" do
+            account = create :account
+            create_transaction_and_budget(account: account) do |transaction, budget|
+              transaction.transaction_date = Date.today + 1.weeks + 5.day
+              transaction.amount = Money.from_amount(5)
+              transaction.balance = Money.from_amount(5)
+              budget.recurrence = :weekly
               budget.recurrence_multiplier = 1
+              budget.amount = Money.from_amount(5)
+            end
+            create_transaction_and_budget(account: account) do |transaction, budget|
+              transaction.transaction_date = Date.today + 1.weeks + 6.day
+              transaction.amount = Money.from_amount(10)
+              transaction.balance = Money.from_amount(15)
+              budget.recurrence = :weekly
+              budget.recurrence_multiplier = 1
+              budget.amount = Money.from_amount(10)
             end
 
             report = one_month_window_timeline(account)
             timelines = report.call
 
-            transaction = account.transactions.first
-            budgeted_line_item = account.budgeted_line_items.first
-            new_balance = transaction.balance_cents + budgeted_line_item.amount_cents
+            expect(timelines.count).to eq(6)
+            expect(timelines[2].transaction_date).to eq(Date.today + 2.weeks + 5.day)
+            expect(timelines[3].transaction_date).to eq(Date.today + 2.weeks + 6.day)
+            expect(timelines[4].transaction_date).to eq(Date.today + 3.weeks + 5.day)
+            expect(timelines[5].transaction_date).to eq(Date.today + 3.weeks + 6.day)
 
-            expect(timelines.last.balance_cents).to eq(new_balance)
+            expect(timelines[2].amount).to eq(Money.from_amount(5))
+            expect(timelines[3].amount).to eq(Money.from_amount(10))
+            expect(timelines[4].amount).to eq(Money.from_amount(5))
+            expect(timelines[5].amount).to eq(Money.from_amount(10))
+
+            expect(timelines[2].balance).to eq(Money.from_amount(20))
+            expect(timelines[3].balance).to eq(Money.from_amount(30))
+            expect(timelines[4].balance).to eq(Money.from_amount(35))
+            expect(timelines[5].balance).to eq(Money.from_amount(45))
           end
         end
       end
@@ -125,7 +168,7 @@ module TransactionReporting
           expected = expected_transactions[index]
           mismatch_found = actual.description != expected.description ||
             actual.transaction_date != expected.transaction_date ||
-            actual.amount_cents != expected.amount_cents ||
+            actual.amount != expected.amount ||
             !actual.expected_date.nil?
         end
         return !mismatch_found
