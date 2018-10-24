@@ -1,13 +1,13 @@
 sudo: required
 services:
   - docker
-addons:
-  global:
-    - CC_TEST_REPORTER_ID=b13fb00426c826d21ca622b12779dc048d81af36accba45a9f39f1f833bdf58e
-before_script:
-  - docker-compose run app ./beforeScript.sh
+# addons:
+#   global:
+#     - CC_TEST_REPORTER_ID=b13fb00426c826d21ca622b12779dc048d81af36accba45a9f39f1f833bdf58e
+# before_script:
+#   - docker-compose run app ./beforeScript.sh
 script:
   - docker-compose build
   - docker-compose run app ./runTests.sh
-after_script:
-  - docker-compose run app ./afterScript.sh
+# after_script:
+#   - docker-compose run app ./afterScript.sh
