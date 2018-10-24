@@ -22,6 +22,7 @@ gem "will_paginate-bootstrap4"
 gem "money-rails", "~>1"
 gem "responders", "~> 2.0"
 gem "activerecord-import"
+gem "newrelic_rpm"
 gem "chartkick"
 gem "groupdate"
 
