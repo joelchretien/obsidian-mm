@@ -15,10 +15,6 @@ class Transaction < ApplicationRecord
 
   self.per_page = 50
 
-  def user
-    account.user
-  end
-
   def is_duplicate(transaction)
     description == transaction.description &&
       transaction_date == transaction.transaction_date &&

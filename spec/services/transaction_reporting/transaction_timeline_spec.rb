@@ -32,6 +32,17 @@ module TransactionReporting
             expect(transaction_timeline_items).to match_timelines_to_transactions([transaction])
           end
         end
+
+        context "when there are no transactions" do
+          it "returns an empty timeline" do
+            account = create :account
+
+            report = one_month_window_timeline(account)
+            transaction_timeline_items = report.call
+
+            expect(transaction_timeline_items.empty?).to eq(true)
+          end
+        end
       end
 
       context "budgeted line items" do
@@ -77,6 +88,48 @@ module TransactionReporting
 
             expect(timelines.count).to eq(2)
             expect(timelines[1].transaction_date).to eq(Date.today - 2.weeks + 1.month)
+          end
+        end
+
+        context "when no matching transaction has yet occurred" do
+          context "and the start date is before today" do
+            it "it returns today" do
+              account = create_transaction_and_budget() do |transaction, budget|
+                budget.description = "Something Else"
+                budget.start_date = Date.today - 1.day
+              end
+
+              report = one_month_window_timeline(account)
+              timelines = report.call
+
+              expect(timelines.count).to eq(2)
+              expect(timelines[1].transaction_date).to eq(Date.today)
+            end
+          end
+
+          context "and the start date is after today" do
+            it "returns the start date" do
+              account = create_transaction_and_budget() do |transaction, budget|
+                budget.description = "Something Else"
+                budget.start_date = Date.today + 1.day
+              end
+
+              report = one_month_window_timeline(account)
+              timelines = report.call
+
+              expect(timelines.count).to eq(2)
+              expect(timelines[1].transaction_date).to eq(Date.today + 1.day)
+            end
+          end
+        end
+
+        context "when a non-recurring budgeted line item is present" do
+          context "and the start date is after today" do
+            it "returns the start date once"
+          end
+
+          context "and the start date is before today" do
+            it "returns the a date of today once"
           end
         end
 

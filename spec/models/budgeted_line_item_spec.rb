@@ -102,24 +102,5 @@ describe BudgetedLineItem do
         expect(result).to eq(false)
       end
     end
-
-    describe "#next_date" do
-      it "returns the next month when monthly" do
-        budgeted_line_item = create :budgeted_line_item, recurrence: :monthly, recurrence_multiplier: 1, start_date: Date.today
-        expect(budgeted_line_item.next_date(Date.today)).to eq(Date.today + 1.month)
-      end
-      it "returns the next year when yearly" do
-        budgeted_line_item = create :budgeted_line_item, recurrence: :yearly, recurrence_multiplier: 1, start_date: Date.today
-        expect(budgeted_line_item.next_date(Date.today)).to eq(Date.today + 1.year)
-      end
-      it "returns the next week when weekly" do
-        budgeted_line_item = create :budgeted_line_item, recurrence: :weekly, recurrence_multiplier: 1, start_date: Date.today
-        expect(budgeted_line_item.next_date(Date.today)).to eq(Date.today + 7.days)
-      end
-      it "returns the nil when one time" do
-        budgeted_line_item = create :budgeted_line_item, recurrence: :no_recurrence, recurrence_multiplier: 1, start_date: Date.today
-        expect(budgeted_line_item.next_date(Date.today)).to be_nil
-      end
-    end
   end
 end

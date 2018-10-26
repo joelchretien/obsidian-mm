@@ -36,17 +36,6 @@ class BudgetedLineItem < ApplicationRecord
     description == transaction.description
   end
 
-  def next_date(current_date)
-    if no_recurrence?
-      nil
-    elsif weekly?
-      current_date + (7 * recurrence_multiplier).days
-    elsif monthly?
-      current_date + recurrence_multiplier.months
-    elsif yearly?
-      current_date + recurrence_multiplier.years
-    end
-  end
 
   private
 

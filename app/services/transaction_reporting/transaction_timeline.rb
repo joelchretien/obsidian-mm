@@ -9,6 +9,7 @@ module TransactionReporting
     end
 
     def call
+      return [] if account.last_transaction.nil?
       transactions = Transaction.between_dates(@start_date, @end_date)
       past_timelines = transactions.collect { |t| TransactionTimelineItem.from_transaction(t) }
       future_timelines = budgeted_line_item_timelines()
@@ -35,6 +36,7 @@ module TransactionReporting
       upcoming_timelines.sort_by { |n| n.transaction_date }
     end
 
+
     def set_expected_balances(upcoming_timelines)
       current_balance = account.last_transaction.balance
       upcoming_timelines.each do |timeline|
@@ -45,19 +47,35 @@ module TransactionReporting
 
     def get_timeline_for_budgeted_line_item(budgeted_line_item, latest_matching_transaction)
       timelines = []
-      current_date = get_start_date(budgeted_line_item, latest_matching_transaction)
+      last_transaction_date = last_transaction_date(budgeted_line_item, latest_matching_transaction)
+      forecast_date = nil
       past_end_of_report = false
       while !past_end_of_report do
-        next_date = budgeted_line_item.next_date(current_date)
-        if next_date <= @end_date
-          timeline = get_timeline_for_date(budgeted_line_item, next_date)
+        forecast_date = next_forecast_date(budgeted_line_item, last_transaction_date, forecast_date)
+        if !forecast_date.nil? && forecast_date <= @end_date
+          timeline = get_timeline_for_date(budgeted_line_item, forecast_date)
           timelines << timeline
-          current_date = next_date
         else
           past_end_of_report = true
         end
       end
       timelines
+    end
+
+    def next_forecast_date(budgeted_line_item, last_transaction_date, last_forecast_date)
+      if last_forecast_date.nil? && last_transaction_date.nil?
+        # This is the first future transaction for this budgeted_line_item
+        return budgeted_line_item.start_date
+      end
+      previous_date = last_forecast_date.nil? ? last_transaction_date : last_forecast_date
+      if budgeted_line_item.weekly?
+        to_return = previous_date + (7 * budgeted_line_item.recurrence_multiplier).days
+      elsif budgeted_line_item.monthly?
+        to_return = previous_date + budgeted_line_item.recurrence_multiplier.months
+      elsif budgeted_line_item.yearly?
+        to_return = previous_date + budgeted_line_item.recurrence_multiplier.years
+      end
+      to_return
     end
 
     def get_timeline_for_date(budgeted_line_item, next_date)
@@ -70,13 +88,9 @@ module TransactionReporting
       timeline
     end
 
-    def get_start_date(budgeted_line_item, past_transaction)
-      if past_transaction.nil?
-        current_date = budgeted_line_item.start_date
-      else
-        current_date = past_transaction.transaction_date
-      end
-      current_date
+    def last_transaction_date(budgeted_line_item, past_transaction)
+      return nil if past_transaction.nil?
+      past_transaction.transaction_date
     end
   end
 end
