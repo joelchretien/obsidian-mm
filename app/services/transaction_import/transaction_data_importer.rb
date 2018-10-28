@@ -26,7 +26,7 @@ module TransactionImport
         end
       end
       Transaction.import(all_transactions)
-      create_user_entered_balance(account.transactions.last)
+      create_user_entered_balance(account.last_transaction)
     end
 
     private

@@ -12,8 +12,8 @@ describe TransactionImport::TransactionDataParser do
         transaction_import = TransactionImport::TransactionDataParser.new(imported_file)
         transaction_import.call(last_balance: 10)
 
-        first_transaction = account.transactions[0]
-        second_transaction = account.transactions[1]
+        first_transaction = account.transactions[1]
+        second_transaction = account.transactions[0]
         expect(first_transaction.transaction_date).to eq(Date.new(2017, 5, 1))
         expect(first_transaction.description).to eq("INTERNET BILL PAYMENT CABLE")
         expect(first_transaction.amount).to eq(Money.from_amount(-91))

@@ -20,7 +20,7 @@ describe TransactionImport::TransactionDataImporter do
       transaction_importer1.call()
       transaction_importer2.call()
 
-      expected_transactions = [file1_transaction1, file1_transaction2, file2_transaction2]
+      expected_transactions = [file2_transaction2, file1_transaction2, file1_transaction1]
       actual_transactions = account.transactions
       expect(actual_transactions.count).to eq(expected_transactions.count)
       expect(actual_transactions).to match_transactions(expected_transactions)
@@ -47,8 +47,7 @@ describe TransactionImport::TransactionDataImporter do
   context "when a budgeted line has a single transaction description" do
     context "and an imported transaction matches the description" do
       it "automatically assigns the transactions" do
-        user = create :user
-        account = create :account, user: user
+        account = create :account
         budgeted_line_item = build :budgeted_line_item, account: account
         imported_file = create_imported_file(account)
         file_transactions = build_two_transactions(account, imported_file)
@@ -62,6 +61,26 @@ describe TransactionImport::TransactionDataImporter do
     end
   end
 
+  context "when there are multiple transactions on the last day on first import" do
+    it "uses the last transaction in the file as the basis for the last balance" do
+      account = create_account
+      imported_file = create_imported_file(account)
+      transactions = []
+      transaction1 = build :transaction, account: account, imported_file: imported_file, transaction_date: Date.yesterday, amount: 10
+      transactions << transaction1
+      transaction2 = build :transaction, account: account, imported_file: imported_file, transaction_date: Date.today, amount: 20
+      transactions << transaction2
+      transaction3 = build :transaction, account: account, imported_file: imported_file, transaction_date: Date.today, amount: 30
+      transactions << transaction3
+      last_balance = 100
+
+      transaction_importer = get_transaction_importer(account, transactions, last_balance: last_balance)
+      transaction_importer.call()
+
+      expect(account.transactions[1].description).to eq(transaction2.description)
+      expect(account.transactions[1].balance).to eq(Money.from_amount(70))
+    end
+  end
 end
 
 def create_account

@@ -1,7 +1,7 @@
 
 describe Account do
   context "associations" do
-    it { is_expected.to have_many(:transactions).dependent(:destroy) }
+    it { is_expected.to have_many(:transactions).dependent(:destroy).order(transaction_date: :desc, id: :desc) }
     it { is_expected.to have_one(:user_entered_balance).dependent(:destroy) }
     it { is_expected.to have_many(:budgeted_line_items).dependent(:destroy) }
     it { is_expected.to have_many(:imported_files).dependent(:destroy) }

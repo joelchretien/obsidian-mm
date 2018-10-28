@@ -7,7 +7,7 @@ feature "upload transaction file" do
 
       upload_transactions(
         file: "single_transaction_with_headers.csv",
-        last_balance: 10
+        last_balance: 10.10
       )
 
       expect(page).to have_content("Bill1")
@@ -18,7 +18,7 @@ feature "upload transaction file" do
 
       upload_transactions(
         file: "single_transaction_with_headers.csv",
-        last_balance: 10
+        last_balance: 10.10
       )
 
       expect(page).to have_content("1.00")
@@ -67,6 +67,19 @@ feature "upload transaction file" do
         name: "Bill3",
         balance: 9
       )
+    end
+  end
+
+  context "with double-quotes in file" do
+    it "escapes the double-quotes" do
+      visit_transactions_page
+
+      upload_transactions(
+        file: "single_transaction_with_double_quotes.csv",
+        last_balance: 10.10
+      )
+
+      expect(page).to have_content("My Bill ")
     end
   end
 

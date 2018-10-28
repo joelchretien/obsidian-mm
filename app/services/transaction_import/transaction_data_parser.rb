@@ -18,7 +18,9 @@ module TransactionImport
         converters: lambda  { |f| f ? f.strip : nil }
       }
       transactions = []
-      CSV.parse(@imported_file.source_file.download, csv_options) do |row|
+      file_contents = @imported_file.source_file.download
+      cleaned_file_contents = clean_file_contents(file_contents)
+      CSV.parse(cleaned_file_contents, csv_options) do |row|
         transaction = create_transaction_from_row(row)
         transaction.imported_file = @imported_file
         transactions << transaction
@@ -32,6 +34,11 @@ module TransactionImport
     end
 
     private
+
+    def clean_file_contents(file_contents)
+      cleaned_quotes = file_contents.gsub(/\"/, "")
+      cleaned_quotes
+    end
 
     def create_transaction_from_row(row)
       date_column_string = row[@options["date_column_name"]]

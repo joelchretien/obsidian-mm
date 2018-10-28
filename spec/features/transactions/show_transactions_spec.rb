@@ -16,21 +16,21 @@ feature "Show Transactions" do
 
   scenario "paginates transactions" do
     user = create_user_with_transactions()
-    transactions = user.accounts[0].transactions
+    transactions = user.accounts.first.transactions
     allow(Transaction).to receive(:per_page).and_return(2)
 
     login_as user, scope: :user
     visit account_transactions_path(user.accounts[0])
 
     expect(page).to have_css(".pagination")
-    expect(page).to have_content(transactions[2].description)
-    expect(page).not_to have_content(transactions[0].description)
+    expect(page).to have_content(transactions.first.description)
+    expect(page).not_to have_content(transactions.last.description)
 
     click_link "2"
 
     expect(page).to have_css(".pagination")
-    expect(page).not_to have_content(transactions[2].description)
-    expect(page).to have_content(transactions[0].description)
+    expect(page).not_to have_content(transactions.first.description)
+    expect(page).to have_content(transactions.last.description)
   end
 
   def create_user_with_transactions

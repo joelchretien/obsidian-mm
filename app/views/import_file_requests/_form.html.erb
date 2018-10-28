@@ -12,7 +12,7 @@
         <% if import_file_request.last_balance_required? %>
           <div class="form-group">
             <label for="last-balance">Last Balance</label>
-            <%= f.number_field :last_balance, class: 'form-control', id: 'last-balance' %>
+            <%= f.number_field :last_balance, class: 'form-control', id: 'last-balance', step: 0.01 %>
           </div>
         <% end %>
       </div>
