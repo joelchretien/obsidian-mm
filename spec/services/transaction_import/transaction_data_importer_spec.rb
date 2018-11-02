@@ -47,6 +47,7 @@ describe TransactionImport::TransactionDataImporter do
   context "when a budgeted line has a single transaction description" do
     context "and an imported transaction matches the description" do
       it "automatically assigns the transactions" do
+        # TODO: Convert this into a stub?
         account = create :account
         budgeted_line_item = build :budgeted_line_item, account: account
         imported_file = create_imported_file(account)

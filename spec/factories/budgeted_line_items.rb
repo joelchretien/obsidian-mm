@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:amount) { |n| Money.from_amount(n) }
     recurrence 0
     recurrence_multiplier 1
-    start_date DateTime.now.beginning_of_day
+    start_date Date.today
     account
   end
 end
