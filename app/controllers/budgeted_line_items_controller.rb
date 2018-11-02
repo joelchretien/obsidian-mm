@@ -51,10 +51,10 @@ class BudgetedLineItemsController < ApplicationController
   def auto_assign_budget_items
     # TODO: Add test with this mocked out to make sure it occurs, then add it
     # back in.
-    # @assign_budgeted_line_item_service = AssignBudgetedLineItemService.new(
-    #   transactions: @account.transactions,
-    #   budgeted_line_items: [@budgeted_line_item],
-    #   save: true
-    # )
+    @assign_budgeted_line_item_service = AssignBudgetedLineItemService.new(
+      transactions: @account.transactions,
+      budgeted_line_items: [@budgeted_line_item],
+      save: true
+    )
   end
 end
