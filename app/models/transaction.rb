@@ -13,7 +13,7 @@ class Transaction < ApplicationRecord
   validates :balance_cents, presence: true
   scope :between_dates, -> (start_date, end_date) { where("transaction_date between ? and ?", start_date, end_date) }
 
-  self.per_page = 50
+  self.per_page = 500
 
   def is_duplicate(transaction)
     description == transaction.description &&
