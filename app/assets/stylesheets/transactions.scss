@@ -3,5 +3,53 @@
 }
 
 .edit-item {
-  display:none;
+  display: none;
+}
+
+.timeline-item {
+  border-top: 1px solid #EEE;
+  padding: 10px;
+  margin-bottom: 3px;
+}
+
+.timeline-item-future .timeline-item-inner {
+  border-left: 5px solid #FF0;
+}
+
+.timeline-item-past .timeline-item-inner {
+  border-left: 5px solid #EEE;
+}
+
+.timeline-item .description {
+  float: left;
+  font-size: 1.2em;
+}
+
+.timeline-item-inner {
+  overflow: hidden;
+  padding-left: 10px;
+}
+
+.timeline-item .top-row {
+  clear: both;
+}
+
+.timeline-item .bottom-row {
+  clear: both;
+}
+
+.timeline-item .amount {
+  float: right;
+  font-size: 1.2em;
+}
+
+.timeline-item .transaction_date {
+  float: left;
+  font-size: 0.8em;
+}
+
+.timeline-item .balance {
+  float: right;
+  color: #444;
+  font-size: 0.8em;
 }
