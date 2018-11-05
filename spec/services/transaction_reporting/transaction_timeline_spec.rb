@@ -57,7 +57,7 @@ module TransactionReporting
             report = one_month_window_timeline(account)
             timelines = report.call
 
-            expect(timelines[0].transaction_date).to eq(Date.today)
+            expect(timelines.last.transaction_date).to eq(Date.today)
           end
 
           it "returns multiple timeline items for a budgeted line item that repeats itself before the end date" do
@@ -71,7 +71,7 @@ module TransactionReporting
             timelines = report.call
 
             expect(timelines.count).to eq(2)
-            expect(timelines[0].transaction_date).to eq(Date.today)
+            expect(timelines.last.transaction_date).to eq(Date.today)
           end
         end
 
@@ -87,7 +87,7 @@ module TransactionReporting
             timelines = report.call
 
             expect(timelines.count).to eq(2)
-            expect(timelines[1].transaction_date).to eq(Date.today - 2.weeks + 1.month)
+            expect(timelines[0].transaction_date).to eq(Date.today - 2.weeks + 1.month)
           end
         end
 
@@ -95,7 +95,7 @@ module TransactionReporting
           context "and the start date is before today" do
             it "it returns today" do
               account = create_transaction_and_budget() do |transaction, budget|
-                budget.description = "Something Else"
+                budget.transaction_descriptions = "Something Else"
                 budget.start_date = Date.today - 1.day
               end
 
@@ -103,7 +103,7 @@ module TransactionReporting
               timelines = report.call
 
               expect(timelines.count).to eq(2)
-              expect(timelines[1].transaction_date).to eq(Date.today)
+              expect(timelines[0].transaction_date).to eq(Date.today)
             end
           end
 
@@ -121,6 +121,23 @@ module TransactionReporting
               expect(timelines.count).to eq(2)
               expect(timelines[1].transaction_date).to eq(Date.today + 1.day)
             end
+          end
+        end
+
+        context "when the budgeted line item start date is far in the past" do
+          it "returns the expected timeline item date" do
+            account = create_transaction_and_budget() do |transaction, budget|
+              transaction.transaction_date = Date.today - 2.weeks
+              budget.recurrence = :monthly
+              budget.recurrence_multiplier = 1
+              budget.start_date = Date.today - 3.years
+            end
+
+            report = one_month_window_timeline(account)
+            timelines = report.call
+
+            expect(timelines.count).to eq(2)
+            expect(timelines[0].transaction_date).to eq(Date.today - 2.weeks + 1.month)
           end
         end
 
@@ -150,7 +167,7 @@ module TransactionReporting
         end
 
         context "when calculating the balance for budgeted line items" do
-          context "when it is a single budgeted line items" do
+          context "when it is a single budgeted line item" do
             it "adds the budgeted line item to the last transactions" do
               account = create_transaction_and_budget() do |transaction, budget|
                 transaction.transaction_date = Date.today - 2.weeks
@@ -165,12 +182,12 @@ module TransactionReporting
               budgeted_line_item = account.budgeted_line_items.first
               new_balance = transaction.balance + budgeted_line_item.amount
 
-              expect(timelines.last.balance).to eq(new_balance)
+              expect(timelines.first.balance).to eq(new_balance)
             end
           end
         end
 
-        context "when it is multiple budgeted line items" do
+        context "when there are multiple budgeted line items" do
           it "shows the balances in chronological order" do
             account = create :account
             create_transaction_and_budget(account: account) do |transaction, budget|
@@ -194,20 +211,20 @@ module TransactionReporting
             timelines = report.call
 
             expect(timelines.count).to eq(6)
-            expect(timelines[2].transaction_date).to eq(Date.today + 2.weeks + 5.day)
-            expect(timelines[3].transaction_date).to eq(Date.today + 2.weeks + 6.day)
-            expect(timelines[4].transaction_date).to eq(Date.today + 3.weeks + 5.day)
-            expect(timelines[5].transaction_date).to eq(Date.today + 3.weeks + 6.day)
+            expect(timelines[3].transaction_date).to eq(Date.today + 2.weeks + 5.day)
+            expect(timelines[2].transaction_date).to eq(Date.today + 2.weeks + 6.day)
+            expect(timelines[1].transaction_date).to eq(Date.today + 3.weeks + 5.day)
+            expect(timelines[0].transaction_date).to eq(Date.today + 3.weeks + 6.day)
 
-            expect(timelines[2].amount).to eq(Money.from_amount(5))
-            expect(timelines[3].amount).to eq(Money.from_amount(10))
-            expect(timelines[4].amount).to eq(Money.from_amount(5))
-            expect(timelines[5].amount).to eq(Money.from_amount(10))
+            expect(timelines[3].amount).to eq(Money.from_amount(5))
+            expect(timelines[2].amount).to eq(Money.from_amount(10))
+            expect(timelines[1].amount).to eq(Money.from_amount(5))
+            expect(timelines[0].amount).to eq(Money.from_amount(10))
 
-            expect(timelines[2].balance).to eq(Money.from_amount(20))
-            expect(timelines[3].balance).to eq(Money.from_amount(30))
-            expect(timelines[4].balance).to eq(Money.from_amount(35))
-            expect(timelines[5].balance).to eq(Money.from_amount(45))
+            expect(timelines[3].balance).to eq(Money.from_amount(20))
+            expect(timelines[2].balance).to eq(Money.from_amount(30))
+            expect(timelines[1].balance).to eq(Money.from_amount(35))
+            expect(timelines[0].balance).to eq(Money.from_amount(45))
           end
         end
       end

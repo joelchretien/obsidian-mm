@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row my-2">
-    <div class="col-sm-4">
-      <% @transaction_timeline.each do |timeline_item| %>
+    <div class="col-md-4">
+      <% @transaction_dashboard[:timeline_items].each do |timeline_item| %>
         <div class="timeline-item <%= timeline_item.is_future ? 'timeline-item-future' : 'timeline-item-past' %>">
           <div class="timeline-item-inner">
             <div class="top-row">
@@ -24,7 +24,8 @@
         </div>
       <% end %>
     </div>
-    <div class="col-sm-6">
+    <div class="col-md-6">
+      <%= line_chart @transaction_dashboard[:chart_data] %>
     </div>
   </div>
 </div>

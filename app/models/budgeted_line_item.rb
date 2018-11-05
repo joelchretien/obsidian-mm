@@ -33,7 +33,7 @@ class BudgetedLineItem < ApplicationRecord
   end
 
   def matches_transaction(transaction)
-    description == transaction.description
+    transaction_descriptions == transaction.description
   end
 
 

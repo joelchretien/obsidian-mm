@@ -28,8 +28,12 @@ feature "timeline on dashboard page" do
     if !description.nil?
       results = []
       timeline_items.each do |item|
-        if !item.all("*", text: description).empty?
-          results << item
+        #TODO:Remove rescue here
+        begin
+          if !item.first(".description", text: description).nil?
+            results << item
+          end
+        rescue
         end
       end
       timeline_items = results
@@ -37,8 +41,12 @@ feature "timeline on dashboard page" do
     if !transaction_date.nil?
       results = []
       timeline_items.each do |item|
-        if !item.all("*", text: transaction_date).empty?
-          results << item
+        #TODO:Remove rescue here
+        begin
+          if !item.first(".transaction_date", text: transaction_date.strftime("%b %-d, %y")).nil?
+            results << item
+          end
+        rescue
         end
       end
       timeline_items = results

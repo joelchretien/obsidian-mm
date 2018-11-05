@@ -10,10 +10,12 @@ module TransactionReporting
 
     def call
       return [] if account.last_transaction.nil?
-      transactions = Transaction.between_dates(@start_date, @end_date).sort_by { |n| n.transaction_date }.reverse!
+      transactions = Transaction.between_dates(@start_date, @end_date).sort_by { |n| n.transaction_date }
       past_timelines = transactions.collect { |t| TransactionTimelineItem.from_transaction(t) }
       future_timelines = budgeted_line_item_timelines()
-      future_timelines + past_timelines
+      timeline_items_ascending = past_timelines + future_timelines
+      timeline_items = timeline_items_ascending.reverse!
+      timeline_items
     end
 
     private
@@ -32,7 +34,7 @@ module TransactionReporting
         timelines = get_timeline_for_budgeted_line_item(budgeted_line_item, latest_matching_transaction)
         upcoming_timelines.push(*timelines)
       end
-      upcoming_timelines.sort_by { |n| n.transaction_date }.reverse!
+      upcoming_timelines.sort_by { |n| n.transaction_date }
     end
 
 

@@ -4,7 +4,7 @@ def create_transaction_and_budget(account: nil)
   end
   transaction = build :transaction, account: account
   budgeted_line_item = build :budgeted_line_item,
-    description: transaction.description,
+    transaction_descriptions: transaction.description,
     account: account,
     start_date: 5.years.ago
   yield(transaction, budgeted_line_item)

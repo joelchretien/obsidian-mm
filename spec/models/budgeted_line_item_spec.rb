@@ -87,7 +87,7 @@ describe BudgetedLineItem do
     describe "#matches" do
       it "matches if the descriptions are equal" do
         transaction = create :transaction
-        budgeted_line_item = create :budgeted_line_item, description: transaction.description
+        budgeted_line_item = create :budgeted_line_item, transaction_descriptions: transaction.description
 
         result = budgeted_line_item.matches_transaction(transaction)
 
