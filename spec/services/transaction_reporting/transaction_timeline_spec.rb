@@ -93,7 +93,7 @@ module TransactionReporting
 
         context "when no matching transaction has yet occurred" do
           context "and the start date is before today" do
-            it "it returns today" do
+            it "it returns today", skip: true do
               account = create_transaction_and_budget() do |transaction, budget|
                 budget.transaction_descriptions = "Something Else"
                 budget.start_date = Date.today - 1.day
