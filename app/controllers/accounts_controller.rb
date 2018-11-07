@@ -2,15 +2,7 @@ class AccountsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @accounts = current_user.accounts.order("name")
-  end
-
-  def show
-    @account = current_user.accounts.find(params[:id])
-    transaction_timeline_service = TransactionReporting::TransactionTimeline.new(@account, Date.today - 1.month, Date.today + 1.month)
-    @transaction_timeline = transaction_timeline_service.call()
-    # @transactions_for_chart_service = TransactionReporting::TransactionsForChart.new(@transaction_timeline)
-    # @transactions_for_chart = @transactions_for_chart_service.call()
+    @accounts = current_user.accounts.order(:name)
   end
 
   def new
@@ -26,7 +18,8 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     @account.user = current_user
-    @account.import_configuration_options = { hello: "hello" }.to_json
+    # TODO: Add in configurations for CSV import
+    @account.import_configuration_options = {}.to_json
     @account.save
     respond_modal_with @account, location: accounts_path
   end

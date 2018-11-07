@@ -4,7 +4,7 @@ class BudgetedLineItem < ApplicationRecord
   monetize :amount_cents
   validates :amount_cents, presence: true
 
-  enum recurrence:  [:no_recurrence, :weekly, :monthly, :yearly ]
+  enum recurrence: [:no_recurrence, :weekly, :monthly, :yearly ]
   validates :recurrence, presence: true
 
   validates :recurrence_multiplier, presence: true
@@ -35,7 +35,6 @@ class BudgetedLineItem < ApplicationRecord
   def matches_transaction(transaction)
     transaction_descriptions == transaction.description
   end
-
 
   private
 

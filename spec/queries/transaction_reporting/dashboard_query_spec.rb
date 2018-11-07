@@ -1,4 +1,4 @@
-describe TransactionReporting::TransactionDashboardService do
+describe TransactionReporting::DashboardQuery do
   context "when it is called" do
     it "aggregates the information from other services" do
       # TODO: Add in spec for this.

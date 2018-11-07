@@ -1,4 +1,4 @@
-describe TransactionImport::TransactionDataImporter do
+describe TransactionImport::Importer do
   include CsvFileExamples
 
   context "for a transactions that overlap" do
@@ -109,7 +109,7 @@ def build_two_transactions(account, imported_file)
 end
 
 def get_transaction_importer(account, transactions, last_balance: nil)
-  importer = TransactionImport::TransactionDataImporter.new(
+  importer = TransactionImport::Importer.new(
     account,
     transactions,
     last_balance: last_balance

@@ -1,5 +1,5 @@
 module TransactionReporting
-  class TransactionDashboardService
+  class DashboardQuery
     attr_reader :account, :start_date, :end_date
 
     def initialize(account, start_date, end_date)
@@ -10,8 +10,8 @@ module TransactionReporting
 
     def call
       @dashboard = {}
-      @dashboard[:timeline_items] = TransactionTimeline.new(@account, @start_date, @end_date).call
-      @dashboard[:chart_data] = ChartDataService.new(@dashboard[:timeline_items]).call
+      @dashboard[:timeline_items] = TimelineQuery.new(@account, @start_date, @end_date).call
+      @dashboard[:chart_data] = ChartDataQuery.new(@dashboard[:timeline_items]).call
       @dashboard
     end
   end

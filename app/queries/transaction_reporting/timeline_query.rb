@@ -1,5 +1,5 @@
 module TransactionReporting
-  class TransactionTimeline
+  class TimelineQuery
     attr_reader :account, :start_date, :end_date
 
     def initialize(account, start_date, end_date)
@@ -11,7 +11,7 @@ module TransactionReporting
     def call
       return [] if account.last_transaction.nil?
       transactions = Transaction.between_dates(@start_date, @end_date).sort_by { |n| n.transaction_date }
-      past_timelines = transactions.collect { |t| TransactionTimelineItem.from_transaction(t) }
+      past_timelines = transactions.collect { |t| TimelineItem.from_transaction(t) }
       future_timelines = budgeted_line_item_timelines()
       timeline_items_ascending = past_timelines + future_timelines
       timeline_items = timeline_items_ascending.reverse!
@@ -27,8 +27,7 @@ module TransactionReporting
 
     def get_upcoming_timelines
       upcoming_timelines = []
-      latest_transactions_service = LatestTransactionsByDescriptions.new(account)
-      latest_transactions = latest_transactions_service.call()
+      latest_transactions = LatestByDescriptionsQuery.new(account).call
       account.budgeted_line_items.each do |budgeted_line_item|
         latest_matching_transaction = latest_transactions.find { |transaction| budgeted_line_item.matches_transaction(transaction) }
         timelines = get_timeline_for_budgeted_line_item(budgeted_line_item, latest_matching_transaction)
@@ -81,7 +80,7 @@ module TransactionReporting
 
     def get_timeline_for_date(budgeted_line_item, next_date)
       transaction_date = next_date < Date.today ? Date.today : next_date
-      timeline = TransactionTimelineItem.from_budgeted_line_item(
+      timeline = TimelineItem.from_budgeted_line_item(
         budgeted_line_item,
         expected_date: next_date,
         transaction_date: transaction_date

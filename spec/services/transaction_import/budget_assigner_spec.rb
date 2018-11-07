@@ -1,4 +1,4 @@
-describe TransactionImport::AssignBudgetedLineItemService do
+describe TransactionImport::BudgetAssigner do
   context "when a transaction description matches the budgeted line item" do
     context "and the transaction is between the start and end date of the budgeted line item" do
       it "assigns the transaction" do
@@ -62,7 +62,7 @@ describe TransactionImport::AssignBudgetedLineItemService do
       end_date: Date.today + 1.day,
       transaction_descriptions: transaction_description
 
-    service = TransactionImport::AssignBudgetedLineItemService.new(
+    service = TransactionImport::BudgetAssigner.new(
       transactions: [transaction],
       budgeted_line_items: [budgeted_line_item],
       save: false

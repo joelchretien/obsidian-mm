@@ -3,7 +3,11 @@ class BudgetedLineItemsController < ApplicationController
 
   def index
     @account = current_user.accounts.find(params[:account_id])
-    @budgeted_line_items = @account.budgeted_line_items.alphabetical.paginate(page: params[:page]).order("description")
+    @budgeted_line_items = @account
+      .budgeted_line_items
+      .alphabetical
+      .paginate(page: params[:page])
+      .order("description")
   end
 
   def new
@@ -24,7 +28,10 @@ class BudgetedLineItemsController < ApplicationController
     @budgeted_line_item.account = @account
     @budgeted_line_item.save
     auto_assign_budget_items
-    respond_modal_with @budgeted_line_item, location: account_budgeted_line_items_path(@account)
+    respond_modal_with(
+      @budgeted_line_item,
+      location: account_budgeted_line_items_path(@account)
+    )
   end
 
   def update
@@ -32,7 +39,10 @@ class BudgetedLineItemsController < ApplicationController
     @budgeted_line_item = @account.budgeted_line_items.find(params[:id])
     @budgeted_line_item.update(budgeted_line_item_params)
     auto_assign_budget_items
-    respond_modal_with @budgeted_line_item, location: account_budgeted_line_items_path(@account, @budgeted_line_item)
+    respond_modal_with(
+      @budgeted_line_item,
+      location: account_budgeted_line_items_path(@account, @budgeted_line_item)
+    )
   end
 
   def destroy
@@ -45,15 +55,21 @@ class BudgetedLineItemsController < ApplicationController
   private
 
   def budgeted_line_item_params
-    params.require(:budgeted_line_item).permit(:description, :amount, :recurrence, :recurrence_multiplier, :start_date, :transaction_descriptions)
+    params.require(:budgeted_line_item).permit(
+      :description,
+      :amount,
+      :recurrence,
+      :recurrence_multiplier,
+      :start_date,
+      :transaction_descriptions
+    )
   end
 
   def auto_assign_budget_items
-    @assign_budgeted_line_item_service = TransactionImport::AssignBudgetedLineItemService.new(
+    TransactionImport::BudgetAssigner.new(
       transactions: @account.transactions,
       budgeted_line_items: [@budgeted_line_item],
       save: true
-    )
-    @assign_budgeted_line_item_service.call
+    ).call
   end
 end

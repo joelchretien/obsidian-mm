@@ -1,5 +1,5 @@
 module TransactionReporting
-  describe TransactionTimeline do
+  describe TimelineQuery do
     context "#call" do
       context "transactions" do
         context "when a transaction is between the start date and end date" do
@@ -249,7 +249,7 @@ module TransactionReporting
     def one_month_window_timeline(account)
       start_date = Date.today - 1.month
       end_date = Date.today + 1.month
-      TransactionTimeline.new(account, start_date, end_date)
+      TimelineQuery.new(account, start_date, end_date)
     end
   end
 end

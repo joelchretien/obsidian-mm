@@ -1,13 +1,12 @@
 module TransactionReporting
-  describe LatestTransactionsByDescriptions do
+  describe LatestByDescriptionsQuery do
     context "#call" do
       it "returns the latest by description" do
         account = create :account
         transaction1 = transactions_with_same_descriptions(account)
         transaction2 = transactions_with_same_descriptions(account)
 
-        latest_transactions_by_descriptions = LatestTransactionsByDescriptions.new(account)
-        transactions = latest_transactions_by_descriptions.call()
+        transactions = LatestByDescriptionsQuery.new(account).call
 
         expect(transactions).to eq([transaction1, transaction2])
       end

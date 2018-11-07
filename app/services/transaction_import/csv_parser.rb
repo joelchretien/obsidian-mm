@@ -1,7 +1,7 @@
 require "csv"
 
 module TransactionImport
-  class TransactionDataParser
+  class CsvParser
     attr_accessor :imported_file
     attr_accessor :options
 
@@ -12,11 +12,6 @@ module TransactionImport
     end
 
     def call(last_balance: nil)
-      csv_options = {
-        headers: true,
-        header_converters: lambda { |f| f.strip },
-        converters: lambda  { |f| f ? f.strip : nil }
-      }
       transactions = []
       file_contents = @imported_file.source_file.download
       cleaned_file_contents = clean_file_contents(file_contents)
@@ -25,15 +20,22 @@ module TransactionImport
         transaction.imported_file = @imported_file
         transactions << transaction
       end
-      transaction_importer = TransactionDataImporter.new(
+      Importer.new(
         imported_file.account,
         transactions,
         last_balance: last_balance
-      )
-      transaction_importer.call()
+      ).call
     end
 
     private
+
+    def csv_options
+      {
+        headers: true,
+        header_converters: lambda { |f| f.strip },
+        converters: lambda  { |f| f ? f.strip : nil }
+      }
+    end
 
     def clean_file_contents(file_contents)
       cleaned_quotes = file_contents.gsub(/\"/, "")

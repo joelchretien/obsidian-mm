@@ -1,5 +1,5 @@
 module TransactionReporting
-  class ChartDataService
+  class ChartDataQuery
     attr :timeline_items
 
     def initialize(timeline_items)

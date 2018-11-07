@@ -1,5 +1,5 @@
 module TransactionImport
-  class TransactionDataImporter
+  class Importer
     attr_accessor :transactions, :account, :last_balance
 
     def initialize(account, transactions, last_balance: nil)
@@ -36,17 +36,15 @@ module TransactionImport
       newer_transactions = @transactions.select { |transaction| transaction.transaction_date > last_day }
       new_last_day_transactions = @transactions.select { |transaction| transaction.transaction_date == last_day }
       remove_duplicates(new_last_day_transactions, existing_last_day_transactions)
-      all_transactions = new_last_day_transactions + newer_transactions
-      all_transactions
+      new_last_day_transactions + newer_transactions
     end
 
     def assign_budgeted_line_items(transactions)
-      assign_budgeted_line_item_service = AssignBudgetedLineItemService.new(
+      BudgetAssigner.new(
         transactions: transactions,
         budgeted_line_items: @account.budgeted_line_items,
         save: false
-      )
-      assign_budgeted_line_item_service.call
+      ).call
     end
 
     def set_transaction_balances(transactions)
@@ -80,11 +78,8 @@ module TransactionImport
     end
 
     def get_last_day(existing_last_day_transactions)
-      if existing_last_day_transactions.empty?
-        Time.at(0).to_date
-      else
-        existing_last_day_transactions.first.transaction_date
-      end
+      return Time.at(0).to_date if existing_last_day_transactions.empty?
+      existing_last_day_transactions.first.transaction_date
     end
 
     def remove_duplicates(new_last_day_transactions, last_day_transactions)

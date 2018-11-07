@@ -1,5 +1,5 @@
 module TransactionImport
-  class AssignBudgetedLineItemService
+  class BudgetAssigner
     attr_accessor :transactions, :budgeted_line_items, :save
 
     def initialize(transactions:, budgeted_line_items:, save:)

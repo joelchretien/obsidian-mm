@@ -8,11 +8,8 @@ class ImportFileRequest
 
 
   def last_balance_required?
-    if @account.nil?
-      false
-    else
-      !@account.imported_files.any?
-    end
+    return false if @account.nil?
+    !@account.imported_files.any?
   end
 
   def register
@@ -21,7 +18,7 @@ class ImportFileRequest
     imported_file = ImportedFile.new(source_file: @source_file)
     imported_file.account = @account
     imported_file.save!
-    transaction_import = TransactionImport::TransactionDataParser.new(imported_file)
+    transaction_import = TransactionImport::CsvParser.new(imported_file)
     transaction_import.call(last_balance: @last_balance.to_f)
   end
 

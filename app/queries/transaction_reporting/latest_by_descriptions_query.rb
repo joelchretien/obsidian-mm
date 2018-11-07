@@ -1,5 +1,5 @@
 module TransactionReporting
-  class LatestTransactionsByDescriptions
+  class LatestByDescriptionsQuery
     attr_reader :account
 
     def initialize(account)

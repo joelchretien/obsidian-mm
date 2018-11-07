@@ -11,7 +11,9 @@ class Transaction < ApplicationRecord
   validates :imported_file, presence: true
   monetize :balance_cents
   validates :balance_cents, presence: true
-  scope :between_dates, -> (start_date, end_date) { where("transaction_date between ? and ?", start_date, end_date) }
+  scope :between_dates, lambda { |start_date, end_date|
+    where("transaction_date between ? and ?", start_date, end_date)
+  }
 
   self.per_page = 500
 

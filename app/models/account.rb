@@ -10,16 +10,11 @@ class Account < ApplicationRecord
   validates :import_configuration_options, presence: true
 
   def last_transaction
-    transactions.first
+    @last_transaction ||= transactions.first
   end
 
   def transactions_for_last_day
-    latest_transaction = last_transaction
-    if latest_transaction.nil?
-      []
-    else
-      last_day_transactions = transactions.where(transaction_date: latest_transaction.transaction_date)
-      last_day_transactions
-    end
+    return [] if last_transaction.nil?
+    transactions.where(transaction_date: last_transaction.transaction_date)
   end
 end
