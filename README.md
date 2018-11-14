@@ -19,7 +19,8 @@ A convenience script is present to help run specs in docker.  It can be run usin
 ```
 ./runTestsInDocker.sh
 ```
- 
+## Continuous Integration
+CI is provided by TravisCI.  The current status of the build and log can be found at the following URL: https://travis-ci.org/joelchretien/obsidian-mm
  
  
 
