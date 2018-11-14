@@ -2,18 +2,23 @@
 
 # README
 
-## Installation
+## Install
 ### Docker
 The docker-compose.yml file will allow you to run the image containing the web application as well as the postgres database required to run it.
-    git clone ...
-    cd obsidian-mm
-    docker-compose build
-    docker-compose up -d
+```
+git clone git@github.com:joelchretien/obsidian-mm.git
+cd obsidian-mm
+docker-compose build
+docker-compose up -d
+```
  
 The image should then be running on your machine.  Connect to http://localhost:3000 to access the application.
  
-### Tests
-
+## Tests
+A convenience script is present to help run specs in docker.  It can be run using the following command.
+```
+./runTestsInDocker.sh
+```
  
  
  
