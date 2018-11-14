@@ -4,6 +4,9 @@
       <div class="row">
         <%= render 'layouts/errors', locals: { error_obj: account} %>
       </div>
+      <div class="alert alert-info" role="alert">
+        <i class="fa fa-exclamation-triangle"></i> Currently, CSVs must be in a strict format.  In the near future, CSV format will be made configurable to support any financial institution.
+      </div>
       <div class="row">
         <div class="form-group">
           <label for="file">File to Upload</label>
