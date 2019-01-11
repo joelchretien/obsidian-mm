@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
+  get "home/index" => "home#index"
   root to: "home#index"
 
   resources :accounts, only: [:index, :edit, :update, :new, :create, :destroy] do
