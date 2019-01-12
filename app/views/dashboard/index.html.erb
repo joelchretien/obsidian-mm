@@ -1,6 +1,12 @@
 <div class="container">
   <div class="row my-2">
     <div class="col-md-4">
+      <%if @transaction_dashboard[:timeline_items].empty? %>
+        <div class="empty-table-container">
+          <i class="fa fa-inbox empty-table-icon"></i>
+          <div class="empty-table-text">No Transactions</div>
+        </div>
+      <%end%>
       <% @transaction_dashboard[:timeline_items].each do |timeline_item| %>
         <div class="timeline-item <%= timeline_item.is_future ? 'timeline-item-future' : 'timeline-item-past' %>">
           <div class="timeline-item-inner">
