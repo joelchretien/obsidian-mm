@@ -14,6 +14,16 @@
         </tr>
       </thead>
       <tbody>
+        <%if @budgeted_line_items.empty? %>
+          <tr>
+            <td colspan="500" class="empty-table-td">
+              <div class="empty-table-container">
+                <i class="fa fa-inbox empty-table-icon"></i>
+                <div class="empty-table-text">No Transactions</div>
+              </div>
+            </td>
+          </tr>
+        <%end%>
         <% @budgeted_line_items.each do |budgeted_line_item| %>
           <tr data-id="<%= budgeted_line_item.id %>">
             <td><%= budgeted_line_item.description %></td>
