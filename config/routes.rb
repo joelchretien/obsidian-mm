@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
-  get "home/index" => "home#index"
-  root to: "home#index"
+  devise_scope :user do
+    root to: "devise/registrations#new"
+  end
 
   resources :accounts, only: [:index, :edit, :update, :new, :create, :destroy] do
     resources :transactions, only: [:index, :edit, :update]

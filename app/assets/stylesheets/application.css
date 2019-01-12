@@ -17,6 +17,22 @@
 .landing-page-tagline
 {
   font-family: 'Pontano Sans';
-  font-size: 16px;
+  font-size: 35px;
+  font-weight: 400;
+  font-style: normal;
+  color: #E9934E;
+  border-left: 1px solid #E9934E;
+}
 
+.fa.landing-page-logo
+{
+  color: #E9934E;
+  font-size: 200px;
+  text-align: center;
+  width: 100%;
+}
+
+.landing-page-black
+{
+  color: #000;
 }
