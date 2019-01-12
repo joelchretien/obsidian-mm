@@ -15,6 +15,16 @@
         </tr>
       </thead>
       <tbody>
+        <%if @accounts.empty? %>
+          <tr>
+            <td colspan="500" class="empty-table-td">
+              <div class="empty-table-container">
+                <i class="fa fa-inbox empty-table-icon"></i>
+                <div class="empty-table-text">No Accounts</div>
+              </div>
+            </td>
+          </tr>
+        <%end%>
         <% @accounts.each do |account| %>
           <tr data-id="<%= account.id %>">
             <td><%= account.name %></td>

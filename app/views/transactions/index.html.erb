@@ -16,6 +16,16 @@
         </tr>
       </thead>
       <tbody>
+        <%if @transactions.empty? %>
+          <tr>
+            <td colspan="500" class="empty-table-td">
+              <div class="empty-table-container">
+                <i class="fa fa-inbox empty-table-icon"></i>
+                <div class="empty-table-text">No Transactions</div>
+              </div>
+            </td>
+          </tr>
+        <%end%>
         <% @transactions.each do |transaction| %>
           <tr data-id="<%= transaction.id %>">
             <td><%= transaction.transaction_date %></td>
