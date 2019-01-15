@@ -8,4 +8,8 @@ class ApplicationController < ActionController::Base
     options[:responder] = ModalResponder
     respond_with *args, options, &blk
   end
+
+  def after_sign_in_path_for(resource)
+    accounts_path
+  end
 end

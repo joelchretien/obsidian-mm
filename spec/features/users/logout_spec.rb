@@ -6,7 +6,7 @@ feature "Logout" do
       email = "example@example.com"
       password = "123456"
       FactoryBot.create(:user, email: email, password: password)
-      visit root_path
+      visit "/users/sign_in"
       fill_in "user_email", with: email
       fill_in "user_password", with: password
       click_button "Log in"
