@@ -41,6 +41,7 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "email_spec"
   gem "rubocop-rails_config", require: false
+  gem "rubocop-rspec"
 end
 
 group :development do
